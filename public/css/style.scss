@@ -1,0 +1,77 @@
+.wrapper-login {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 50px;
+  .waves-effect {
+    margin: auto;
+    margin-top: 40px;
+    width: 250px;
+  }
+}
+
+.login-box {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  padding: 50px;
+  width: 60%;
+  background-color: azure;
+  p {
+    margin-top: 0px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .submit-box {
+    text-align: center;
+    margin-bottom: 30px;
+    #submit-btn {
+      width: 150px;
+      color: white;
+    }
+  }
+
+  a {
+    display: block;
+    text-align: center;
+  }
+}
+
+.register-box {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  padding: 50px;
+  width: 60%;
+  background-color: azure;
+  p {
+    margin-top: 0px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .submit-box {
+    text-align: center;
+    margin-bottom: 30px;
+    #submit-btn {
+      width: 150px;
+      color: white;
+    }
+  }
+
+  a {
+    display: block;
+    text-align: center;
+  }
+}
+
+.todo-box {
+  width: 50%;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+}

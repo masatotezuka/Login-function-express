@@ -1,0 +1,90 @@
+.wrapper-login {
+  width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.wrapper-login .waves-effect {
+  margin: auto;
+  margin-top: 40px;
+  width: 250px;
+}
+
+.login-box {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  padding: 50px;
+  width: 60%;
+  background-color: azure;
+}
+
+.login-box p {
+  margin-top: 0px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.login-box .submit-box {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-box .submit-box #submit-btn {
+  width: 150px;
+  color: white;
+}
+
+.login-box a {
+  display: block;
+  text-align: center;
+}
+
+.register-box {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  padding: 50px;
+  width: 60%;
+  background-color: azure;
+}
+
+.register-box p {
+  margin-top: 0px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.register-box .submit-box {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.register-box .submit-box #submit-btn {
+  width: 150px;
+  color: white;
+}
+
+.register-box a {
+  display: block;
+  text-align: center;
+}
+
+.todo-box {
+  width: 50%;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/*# sourceMappingURL=style.css.map */
