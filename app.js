@@ -1,6 +1,18 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
+const session = require('express-session');
+const domain = require('express-domain-middleware');
+app.use(domain);
+
+
+app.use(
+  session({
+    secret: 'my_secret_key',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.use('/public',express.static('public'));
 app.set('views','./views');

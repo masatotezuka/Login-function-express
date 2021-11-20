@@ -28,16 +28,29 @@
   background-color: azure;
 }
 
-.login-box p {
+.login-box .row .row .error-box .error-messeage {
+  padding-top: 0px;
+  text-align: right;
+  color: red;
+  font-size: 12px;
+}
+
+.login-box #login-text {
   margin-top: 0px;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
 }
 
+.login-box #login-unmatch {
+  margin-top: 0px;
+  text-align: center;
+  color: red;
+}
+
 .login-box .submit-box {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .login-box .submit-box #submit-btn {
@@ -59,11 +72,22 @@
   background-color: azure;
 }
 
-.register-box p {
+.register-box #register-text {
   margin-top: 0px;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
+}
+
+.register-box .input-field {
+  margin-bottom: 0px;
+}
+
+.register-box .row .row .error-box .error-messeage {
+  padding-top: 0px;
+  text-align: right;
+  color: red;
+  font-size: 12px;
 }
 
 .register-box .submit-box {
@@ -86,5 +110,9 @@
   margin-top: 70px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.err-body {
+  text-align: center;
 }
 /*# sourceMappingURL=style.css.map */

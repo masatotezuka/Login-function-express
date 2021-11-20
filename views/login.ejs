@@ -14,27 +14,41 @@
   </header>
   <main>
     <div class="login-box">
-      <p >ログイン</p>
+      <p id="login-text">ログイン</p>
       <div class="row">
-        <form class="col s12">
+        <form action="/login" method="post" class="col s12">
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email" class="validate">
+              <input id="email" type="email" class="validate" name="email">
               <label for="email">Email</label>
+              <% if(errorUndefined[0]!==''){ %>
+                <div class="error-box">
+                  <p class="error-messeage"><%=errorUndefined[0] %> </p>
+                </div>
+               <% }%>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="password" type="password" class="validate">
+              <input type="password" id="password" name="password" class="validate">
               <label for="password">Password</label>
+              <% if(errorUndefined[1]!==''){ %>
+                <div class="error-box">
+                  <p class="error-messeage"><%=errorUndefined[1] %> </p>
+                </div>
+               <% }%>
             </div>
           </div>
+          <div class="submit-box">
+            <input id="submit-btn" type="submit" value="ログイン" class="waves-effect waves-light btn">
+            <label for="submit-btn"></label>
+          </div>
+          <% if(errorUnmatch.length>0){%>
+            <p id="login-unmatch"><%= errorUnmatch %> </p>
+          <% } %>
+            </form>
       </div>
-      <div class="submit-box">
-        <input id="submit-btn" type="submit" value="ログイン" class="waves-effect waves-light btn">
-        <label for="submit-btn"></label>
-      </div>
-        </form>
+
         <a href="/">トップ画面に戻る </a>
     </div>
   </main>

@@ -15,7 +15,7 @@
   </header>
   <main>
     <div class="register-box">
-      <p >新規登録</p>
+      <p id="register-text" >新規登録</p>
       <div class="row">
         <form action="/newregister" method="post" class="col s12" >
           <div class="row">
@@ -27,17 +27,37 @@
               <input placeholder="太朗"　id="last_name" type="text" class="validate" name="last">
               <label for="last_name">名</label>
             </div>
+            <% if(errorUndefined[0] !==''){ %>
+              <div class="error-box">
+                <p class="error-messeage"><%=errorUndefined[0] %> </p>
+              </div>
+             <% }%>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <input id="email" type="email" class="validate" name="email">
               <label for="email">Email</label>
+              <% if(errorUndefined[1]!==''){ %>
+                <div class="error-box">
+                  <p class="error-messeage"><%=errorUndefined[1] %> </p>
+                </div>
+               <% }%>
+               <% if(errorDuplicate.length>0){ %>
+                <div class="error-box">
+                  <p class="error-messeage"> <%= errorDuplicate %> </p>
+                </div>
+               <% }%>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <input id="password" type="password" class="validate" name="password">
               <label for="password">Password</label>
+              <% if(errorUndefined[2]!==''){ %>
+                <div class="error-box">
+                  <p class="error-messeage"><%= errorUndefined[2] %> </p>
+                </div>
+               <% }%>
             </div>
           </div>
           <div class="submit-box">
