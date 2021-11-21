@@ -73,7 +73,7 @@ router.post('/', (req,res,next) => {
     connection.query(
       'INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)',
       [firstName, lastName, email, hash],
-      (err,results) => {
+      (err) => {
         if(err) throw err;
         req.session.userId = results.insertId;
         req.session.email = email;
