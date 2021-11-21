@@ -1,4 +1,5 @@
-.wrapper-login {
+//トップ画面
+.wrapper-top {
   width: 50%;
   margin-right: auto;
   margin-left: auto;
@@ -13,6 +14,7 @@
   }
 }
 
+//登録画面
 .login-box {
   margin-right: auto;
   margin-left: auto;
@@ -82,18 +84,26 @@
       color: white;
     }
   }
-
   a {
     display: block;
     text-align: center;
   }
 }
 
+//ログイン後の画面
 .todo-box {
   width: 50%;
   margin-top: 70px;
   margin-left: auto;
   margin-right: auto;
+}
+.submit-box {
+  text-align: center;
+  margin-bottom: 30px;
+  #submit-btn {
+    width: 150px;
+    color: white;
+  }
 }
 
 .err-body {

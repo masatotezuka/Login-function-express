@@ -10,6 +10,7 @@
   "author": "tezukamaato",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-domain-middleware": "^0.1.0",

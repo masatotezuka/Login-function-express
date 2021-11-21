@@ -33,6 +33,7 @@ app.use('/', require('./routes/index'));
 app.use('/login',require('./routes/login'));
 app.use('/newregister',require('./routes/register'));
 app.use('/list-top',require('./routes/listtop'));
+app.use('/logout', require('./routes/logout'));
 
 // app.post('/newregister', (req,res,next) => {
 //   res.render('login.ejs');
