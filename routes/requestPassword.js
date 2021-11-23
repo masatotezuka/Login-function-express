@@ -41,8 +41,8 @@ router.post('/',(req,res,next)=>{
         const email = req.body.email;
         console.log('メール準備');
         const send = require('gmail-send')({
-          user: 'tez.0731.mst@gmail.com',
-          pass: 'wevpot-6qetje-xodmeF',
+          user: '',
+          pass: '',
           to:   email,
           subject: 'パスワードを設定してください',
         });
