@@ -51,6 +51,7 @@
   a {
     display: block;
     text-align: center;
+    padding-bottom: 20px;
   }
 }
 
@@ -108,4 +109,88 @@
 
 .err-body {
   text-align: center;
+}
+
+//パスワードリセット画面
+.request-password-box {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  padding: 50px;
+  width: 60%;
+  background-color: azure;
+  .row .row .error-box .error-messeage {
+    padding-top: 0px;
+    text-align: right;
+    color: red;
+    font-size: 12px;
+  }
+  #input-mail-text {
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  #mail-unmatch {
+    margin-top: 0px;
+    text-align: center;
+    color: red;
+  }
+  .submit-box {
+    text-align: center;
+    margin-bottom: 20px;
+    #submit-btn {
+      width: 150px;
+      color: white;
+    }
+  }
+  a {
+    display: block;
+    text-align: center;
+  }
+}
+
+//メール送信後の画面
+.after-post-mail-box {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  padding: 50px;
+  width: 60%;
+  background-color: azure;
+}
+
+//パスワード設定画面
+.reset-password-box {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  padding: 50px;
+  width: 60%;
+  background-color: azure;
+  .row .row .error-box .error-messeage {
+    padding-top: 0px;
+    text-align: right;
+    color: red;
+    font-size: 12px;
+  }
+  #input-password-text {
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  #mail-unmatch {
+    margin-top: 0px;
+    text-align: center;
+    color: red;
+  }
+  .submit-box {
+    text-align: center;
+    margin-bottom: 20px;
+    #submit-btn {
+      width: 150px;
+      color: white;
+    }
+  }
 }

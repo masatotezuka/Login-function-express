@@ -13,6 +13,6 @@ router.get('/',(req,res,next) => {
   }else{
     res.render('listpage.ejs');
   }
-})
+});
 
 module.exports =router;

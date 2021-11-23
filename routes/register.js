@@ -22,7 +22,7 @@ router.post('/', (req,res,next) => {
   const email=req.body.email;
   const password=req.body.password;
   const errorMessage=[];
-  //  //空入力の判定
+  // 空入力の判定
   if(firstName==='' | lastName===''){
    errorMessage[0] = '氏名が未入力です。';
   }
@@ -73,7 +73,7 @@ router.post('/', (req,res,next) => {
     connection.query(
       'INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)',
       [firstName, lastName, email, hash],
-      (err) => {
+      (err, results) => {
         if(err) throw err;
         req.session.userId = results.insertId;
         req.session.email = email;
