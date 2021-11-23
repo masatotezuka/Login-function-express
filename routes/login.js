@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const mysql = require('mysql');
 const connection = mysql.createConnection(
@@ -37,31 +37,31 @@ router.post('/',(req,res,next) =>{
   const email=req.body.email;
   const password=req.body.password;
   const errorMessage=[];
+  console.log(email,password);
   connection.query(
-    'SELECT * FROM users WHERE email = ? AND password = ?',
-    [email,password],
+    'SELECT * FROM users WHERE email = ?',
+    [email],
     (err,results)=>{
-      if (err) throw err;
       console.log(results);
-      if(results.length > 0){
-        req.session.userId = results[0].id;
-        // console.log(req.sessionID);
-        console.log(req.session.userId);
-        req.session.email = results[0].email;
-        console.log(req.session.email);
-        // req.session.password = results[0].password;
-        res.redirect('/list-top');
-      }else{
-        errorMessage.push('ログイン情報が正しくありません。');
-        res.render('login.ejs',{errorUndefined:[],errorUnmatch:errorMessage});
-      }
+      if (err) throw err;
+      const hashPass = results[0].password;
+      console.log(hashPass);
+      bcrypt.compare(password,hashPass,(err,isEqual)=>{
+        if(isEqual){
+          req.session.userId = results[0].id;
+          console.log(req.session.userId);
+          req.session.email = results[0].email;
+          console.log(req.session.email);
+          res.redirect('/list-top');
+        }else{
+          errorMessage.push('ログイン情報が正しくありません。');
+          res.render('login.ejs',{errorUndefined:[],errorUnmatch:errorMessage});
+        }
+      });
     }
   );
 }
 );
 
-// const car = "bentz";
-// console.log(car);
 
 module.exports = router;
-// module.exports = car;

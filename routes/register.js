@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const mysql = require('mysql');
 const connection = mysql.createConnection(
@@ -10,7 +10,7 @@ const connection = mysql.createConnection(
   database:'my_db'
   });
 
-router.get('/', (req,res,next) => {
+router.get('/',(req,res,next) => {
   res.render('register.ejs',{errorUndefined:[],errorDuplicate:[]});
   next()
 });
@@ -22,7 +22,7 @@ router.post('/', (req,res,next) => {
   const email=req.body.email;
   const password=req.body.password;
   const errorMessage=[];
-  //  //空入力の判定
+  // 空入力の判定
   if(firstName==='' | lastName===''){
    errorMessage[0] = '氏名が未入力です。';
   }
@@ -60,27 +60,30 @@ router.post('/', (req,res,next) => {
     }
   );
 },
-(req,res)=>{
+(req,res,next)=>{
   const firstName =  req.body.first;
   const lastName = req.body.last;
   const email = req.body.email;
   const password = req.body.password;
-  console.log(firstName);
-  console.log(lastName);
   console.log("データ受け取り完了");
-  connection.query(
-    'INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)',
-    [firstName, lastName, email, password],
-    (err,results) => {
-      if(err)  throw err;
-      console.log(results);
-      req.sessionID = results.insertId;
-      req.session.email = results.email;
-      req.session.password = results.password;
-      res.redirect('/list-top');
-    }
-  );
-}
+  console.log(req.body.password);
+  bcrypt.hash(password,10,(err,hash)=>{
+    if (err) throw err;
+    console.log(password, hash);
+    connection.query(
+      'INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)',
+      [firstName, lastName, email, hash],
+      (err, results) => {
+        if(err) throw err;
+        req.session.userId = results.insertId;
+        req.session.email = email;
+        console.log(req.session.email);
+        console.log(req.session.userId);
+        res.redirect('/list-top');
+      }
+    );
+  });
+},
 );
 
 module.exports = router;

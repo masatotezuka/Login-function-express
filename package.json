@@ -10,11 +10,14 @@
   "author": "tezukamaato",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-domain-middleware": "^0.1.0",
     "express-session": "^1.17.2",
+    "gmail-send": "^1.8.14",
     "materialize-css": "^1.0.0-rc.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "sendmail": "^1.6.1"
   }
 }
