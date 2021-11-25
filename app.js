@@ -2,9 +2,6 @@ const express = require('express');
 const mysql = require('mysql');
 const app = express();
 const session = require('express-session');
-// const domain = require('express-domain-middleware');
-// app.use(domain);
-
 
 app.use(
   session({
@@ -13,11 +10,12 @@ app.use(
     saveUninitialized: false,
   })
 );
+// https://www.npmjs.com/package/express-session
 
 app.use('/public',express.static('public'));
 app.set('views','./views');
 app.set('view engine','ejs');
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended:false}));
 // https://expressjs.com/ja/4x/api.html#express.urlencoded
 
 const connection = mysql.createConnection(

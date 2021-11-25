@@ -76,8 +76,6 @@ router.post('/', (req,res,next) => {
       (err, results) => {
         if(err) throw err;
         req.session.userId = results.insertId;
-        req.session.email = email;
-        console.log(req.session.email);
         console.log(req.session.userId);
         res.redirect('/list-top');
       }

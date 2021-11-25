@@ -14,7 +14,6 @@ router.get('/', (req,res,next) => {
   res.render('login.ejs',{errorUndefined:[],errorUnmatch:[]});
 });
 
-
 router.post('/',(req,res,next) =>{
   const email=req.body.email;
   const password=req.body.password;
@@ -34,6 +33,7 @@ router.post('/',(req,res,next) =>{
   }
 },
 (req,res,next)=>{
+  console.log(req.body);
   const email=req.body.email;
   const password=req.body.password;
   const errorMessage=[];
@@ -62,6 +62,5 @@ router.post('/',(req,res,next) =>{
   );
 }
 );
-
 
 module.exports = router;
