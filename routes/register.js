@@ -66,7 +66,6 @@ router.post('/', (req,res,next) => {
   const email = req.body.email;
   const password = req.body.password;
   console.log("データ受け取り完了");
-  console.log(req.body.password);
   bcrypt.hash(password,10,(err,hash)=>{
     if (err) throw err;
     console.log(password, hash);

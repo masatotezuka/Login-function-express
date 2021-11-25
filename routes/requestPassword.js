@@ -36,7 +36,6 @@ router.post('/',(req,res,next)=>{
       const errorMessage=[];
       if(results.length>0){
         res.render('after-post-mail.ejs');
-        // res.redirect('/requestpassword');
         console.log(`入力アドレスは`,results[0].email);
         const email = req.body.email;
         console.log('メール準備');
