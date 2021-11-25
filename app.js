@@ -36,6 +36,4 @@ app.use('/logout', require('./routes/logout'));
 app.use('/requestpassword', require('./routes/requestPassword'));
 app.use('/resetpassword', require('./routes/resetPassword'));
 
-module.exports = connection;
-
 app.listen(8000);
