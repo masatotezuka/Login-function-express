@@ -1,14 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-
-const mysql = require('mysql');
-const connection = mysql.createConnection(
-  {host:'localhost',
-  user:'root',
-  password:'tezukamasato1370',
-  database:'my_db'
-  });
+const connection=require('../models/db');
 
 router.get('/',(req,res,next) => {
   res.render('register.ejs',{errorUndefined:[],errorDuplicate:[]});

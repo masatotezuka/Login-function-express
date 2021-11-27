@@ -1,13 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
-const mysql = require('mysql');
-const connection = mysql.createConnection(
-  {host:'localhost',
-  user:'root',
-  password:'tezukamasato1370',
-  database:'my_db'
-  });
+const connection=require('../models/db');
 
 router.get('/',(req,res,next)=>{
   res.render('request-password.ejs',{errorUndefined:[],errorUnmatch:[]});

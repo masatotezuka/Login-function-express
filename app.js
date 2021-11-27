@@ -20,13 +20,6 @@ app.set('view engine','ejs');
 app.use(express.urlencoded({extended: false}));
 // https://expressjs.com/ja/4x/api.html#express.urlencoded
 
-const connection = mysql.createConnection(
-  {host:'localhost',
-  user:'me',
-  password:'tezukamasato1370',
-  database:'users'
-  });
-
 //ルーティング
 app.use('/', require('./routes/index'));
 app.use('/login',require('./routes/login'));
