@@ -2,13 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
-const mysql = require("mysql");
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "tezukamasato1370",
-  database: "my_db",
-});
+const connection = require("../models/db");
 
 router.get("/", (req, res, next) => {
   res.render("login.ejs", { errorUndefined: [], errorUnmatch: [] });
@@ -38,7 +32,10 @@ router.post(
     }
   },
   (req, res, next) => {
+<<<<<<< HEAD
     console.log(req.body);
+=======
+>>>>>>> develop2
     const email = req.body.email;
     const password = req.body.password;
     const errorMessage = [];

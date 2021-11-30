@@ -1,14 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-
-const mysql = require("mysql");
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "tezukamasato1370",
-  database: "my_db",
-});
+const connection = require("../models/db");
 
 router.get("/", (req, res, next) => {
   res.render("register.ejs", { errorUndefined: [], errorDuplicate: [] });
@@ -17,7 +10,7 @@ router.get("/", (req, res, next) => {
 
 router.post(
   "/",
-  (req, res, next) => {
+(req, res, next) => {
     const firstName = req.body.first;
     const lastName = req.body.last;
     const email = req.body.email;
@@ -73,6 +66,10 @@ router.post(
     const email = req.body.email;
     const password = req.body.password;
     console.log("データ受け取り完了");
+<<<<<<< HEAD
+=======
+    console.log(req.body.password);
+>>>>>>> develop2
     bcrypt.hash(password, 10, (err, hash) => {
       if (err) throw err;
       console.log(password, hash);
