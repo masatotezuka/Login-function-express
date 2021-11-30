@@ -2,17 +2,6 @@ const express = require("express");
 const router = express.Router();
 const connection = require("../models/db");
 
-<<<<<<< HEAD
-const mysql = require("mysql");
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "tezukamasato1370",
-  database: "my_db",
-});
-
-=======
->>>>>>> develop2
 router.get("/", (req, res, next) => {
   res.render("request-password.ejs", { errorUndefined: [], errorUnmatch: [] });
 });
@@ -45,21 +34,12 @@ router.post(
         const errorMessage = [];
         if (results.length > 0) {
           res.render("after-post-mail.ejs");
-<<<<<<< HEAD
-=======
-          // res.redirect('/requestpassword');
->>>>>>> develop2
           console.log(`入力アドレスは`, results[0].email);
           const email = req.body.email;
           console.log("メール準備");
           const send = require("gmail-send")({
-<<<<<<< HEAD
             user: "gmailアドレスを入力",
             pass: "googleアカウントのパスワードを入力",
-=======
-            user: "",
-            pass: "",
->>>>>>> develop2
             to: email,
             subject: "パスワードを設定してください",
           });

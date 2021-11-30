@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-
 const connection = require("../models/db");
 
 router.get("/", (req, res, next) => {
@@ -32,10 +31,6 @@ router.post(
     }
   },
   (req, res, next) => {
-<<<<<<< HEAD
-    console.log(req.body);
-=======
->>>>>>> develop2
     const email = req.body.email;
     const password = req.body.password;
     const errorMessage = [];

@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
 
 router.post(
   "/",
-(req, res, next) => {
+  (req, res, next) => {
     const firstName = req.body.first;
     const lastName = req.body.last;
     const email = req.body.email;
@@ -66,10 +66,7 @@ router.post(
     const email = req.body.email;
     const password = req.body.password;
     console.log("データ受け取り完了");
-<<<<<<< HEAD
-=======
     console.log(req.body.password);
->>>>>>> develop2
     bcrypt.hash(password, 10, (err, hash) => {
       if (err) throw err;
       console.log(password, hash);
