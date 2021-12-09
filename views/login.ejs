@@ -7,13 +7,19 @@
       <form action="/login" method="post" class="col s12">
         <div class="row">
           <div class="input-field col s12">
-            <input id="email" type="email" class="validate" name="email" />
+            <input
+              id="email"
+              type="email"
+              class="validate"
+              name="email"
+              value=""
+            />
             <label for="email">Email</label>
-            <% if(errorUndefined[0]!==''){ %>
+            <!-- <% if(errorUndefined[0]!==''){ %>
             <div class="error-box">
               <p class="error-messeage"><%=errorUndefined[0] %></p>
             </div>
-            <% }%>
+            <% }%> -->
           </div>
         </div>
         <div class="row">
@@ -25,11 +31,11 @@
               class="validate"
             />
             <label for="password">Password</label>
-            <% if(errorUndefined[1]!==''){ %>
+            <!-- <% if(errorUndefined[1]!==''){ %>
             <div class="error-box">
               <p class="error-messeage"><%=errorUndefined[1] %></p>
             </div>
-            <% }%>
+            <% }%> -->
           </div>
         </div>
         <div class="submit-box">
@@ -41,13 +47,55 @@
           />
           <label for="submit-btn"></label>
         </div>
-        <% if(errorUnmatch.length>0){%>
+        <!-- <% if(errorUnmatch.length>0){%>
         <p id="login-unmatch"><%= errorUnmatch %></p>
-        <% } %>
+        <% } %> -->
       </form>
     </div>
     <a href="/requestpassword">パスワードを忘れてしまった </a>
     <a href="/">トップ画面に戻る </a>
   </div>
 </main>
+<script>
+  const form = document.getElementsByTagName("form")[0];
+  console.log(form);
+  form.addEventListener("submit", function (event) {
+    const $email = document.getElementById("email").value;
+    const $password = document.getElementById("password").value;
+    console.log($email);
+    console.log($password);
+    //文字列で取得できない。
+    const test = [$email, $password];
+    console.log(typeof email);
+    console.log(test);
+    // event.preventDefault();
+    if (test[0] === "") {
+      console.log("メールアドレス未入力です。");
+      // イベントをキャンセルしてフォームの送信を止めます。
+      showError();
+      event.preventDefault();
+    }
+    if ($password === "") {
+      showError();
+      event.preventDefault();
+    }
+  });
+
+  function showError() {
+    console.log("SHOW ERROR");
+    // alert("メールアドレスが未入力です。");
+    // const $errorMessageWrapper = document.getElementsByClassName(
+    //   "input-field col s12"
+    // );
+    // console.log($errorMessageWrapper[0]);
+    // const errorBox = document.createElement("div");
+    // console.log(errorBox);
+    // const errorMessage =
+    //   document.createTextNode("メールアドレスが未入力です。");
+    // console.log();
+    // errorBox.appendChild(errorMessage);
+    // $errorMessageWrapper[0].appendChilid(errorBox);
+    // return;
+  }
+</script>
 <%- include('partials/footer'); %>

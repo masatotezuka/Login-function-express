@@ -15,9 +15,9 @@ router.post(
     const errorMessage = [];
     console.log(`email:`, email, ` password:`, password);
     console.log("POST処理完了");
-    if (email === "") {
-      errorMessage[0] = "メールアドレスが未入力です。";
-    }
+    // if (email === "") {
+    //   errorMessage[0] = "メールアドレスが未入力です。";
+    // }
     if (password === "") {
       errorMessage[1] = "パスワードが未入力です。";
     }
