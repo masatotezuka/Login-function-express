@@ -15,11 +15,11 @@
               value=""
             />
             <label for="email">Email</label>
-            <!-- <% if(errorUndefined[0]!==''){ %>
+            <% if(errorMessage.emailError ==='Invalid params'){ %>
             <div class="error-box">
-              <p class="error-messeage"><%=errorUndefined[0] %></p>
+              <p class="error-messeage"><%='メールアドレスが未入力です。' %></p>
             </div>
-            <% }%> -->
+            <% }%>
           </div>
         </div>
         <div class="row">
@@ -31,11 +31,11 @@
               class="validate"
             />
             <label for="password">Password</label>
-            <!-- <% if(errorUndefined[1]!==''){ %>
+            <% if(errorMessage.passwordError ==='Invalid params'){ %>
             <div class="error-box">
-              <p class="error-messeage"><%=errorUndefined[1] %></p>
+              <p class="error-messeage"><%='パスワードが未入力です' %></p>
             </div>
-            <% }%> -->
+            <% }%>
           </div>
         </div>
         <div class="submit-box">
@@ -47,9 +47,11 @@
           />
           <label for="submit-btn"></label>
         </div>
-        <!-- <% if(errorUnmatch.length>0){%>
-        <p id="login-unmatch"><%= errorUnmatch %></p>
-        <% } %> -->
+        <% if(errorMessage.emailUnmatch ==='Invalid params'){%>
+        <p id="login-unmatch"><%= 'メールアドレスが正しくありません。' %></p>
+        <% } %> <% if(errorMessage.passwordUnmatch ==='Invalid params'){%>
+        <p id="login-unmatch"><%= 'パスワードが正しくありません。' %></p>
+        <% } %>
       </form>
     </div>
     <a href="/requestpassword">パスワードを忘れてしまった </a>
@@ -65,37 +67,36 @@
     console.log($email);
     console.log($password);
     //文字列で取得できない。
-    const test = [$email, $password];
+    const error = [$email, $password];
     console.log(typeof email);
-    console.log(test);
-    // event.preventDefault();
-    if (test[0] === "") {
-      console.log("メールアドレス未入力です。");
+    console.log(error);
+    if (error[0] === "") {
       // イベントをキャンセルしてフォームの送信を止めます。
-      showError();
+      showError("メールアドレス");
       event.preventDefault();
     }
-    if ($password === "") {
-      showError();
+    if (error[1] === "") {
+      showError("パスワード");
       event.preventDefault();
     }
   });
 
-  function showError() {
-    console.log("SHOW ERROR");
-    // alert("メールアドレスが未入力です。");
+  function showError(message) {
+    console.log("ERROR");
+    alert(`${message}が未入力です。`);
+    //ノードを追加できない。
     // const $errorMessageWrapper = document.getElementsByClassName(
     //   "input-field col s12"
     // );
     // console.log($errorMessageWrapper[0]);
     // const errorBox = document.createElement("div");
-    // console.log(errorBox);
+    // const p = document.createElement("p");
     // const errorMessage =
     //   document.createTextNode("メールアドレスが未入力です。");
-    // console.log();
-    // errorBox.appendChild(errorMessage);
+    // console.log(errorMessage);
+    // p.appendChild(errorMessage);
+    // errorBox.appendChild(p);
     // $errorMessageWrapper[0].appendChilid(errorBox);
-    // return;
   }
 </script>
 <%- include('partials/footer'); %>
