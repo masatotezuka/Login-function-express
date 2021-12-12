@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const connection = require("../models/db");
+const model = require("../models/model");
 
 router.get("/", (req, res, next) => {
   res.render("login.ejs", { errorMessage: [] });
@@ -9,6 +10,10 @@ router.get("/", (req, res, next) => {
 
 router.post(
   "/",
+  (req, res, next) => {
+    const bodyData = req.body;
+    FindUsers(bodyData);
+  },
   (req, res, next) => {
     console.log("バリデーション");
     mailAndPasswordValidation(req, res, next);
@@ -22,6 +27,15 @@ router.post(
     passwordMatch(req, res);
   }
 );
+const FindUsers = () => {
+  model.User.findAll()
+    .then((record) => {
+      console.log("データ取得" + record.email);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 //未入力チェック
 const mailAndPasswordValidation = (req, res, next) => {
@@ -67,6 +81,27 @@ const emailMatch = (req, res, next) => {
     }
   );
 };
+
+// const emailMatch = (req, res, next) => {
+//   const errorMessage = { emailUnmacth: "" };
+//   const email = req.body.email;
+//   const password = req.body.password;
+//   console.log(email, password);
+//   connection.query(
+//     "SELECT * FROM users WHERE email = ?",
+//     [email],
+//     (err, results) => {
+//       if (err) throw err;
+//       //エラー対応
+//       if (results[0] === undefined) {
+//         errorMessage.emailUnmatch = "Invalid params";
+//         res.status(400).render("login.ejs", { errorMessage: errorMessage });
+//       } else {
+//         next();
+//       }
+//     }
+//   );
+// };
 
 //パスワードチェック
 const passwordMatch = (req, res) => {

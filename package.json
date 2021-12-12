@@ -20,7 +20,9 @@
     "gmail-send": "^1.8.14",
     "materialize-css": "^1.0.0-rc.2",
     "mysql": "^2.18.1",
-    "sendmail": "^1.6.1"
+    "mysql2": "^2.3.3",
+    "sendmail": "^1.6.1",
+    "sequelize": "^6.12.0-beta.3"
   },
   "devDependencies": {
     "eslint": "^8.4.1",

@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const router = express.Router();
 const session = require("express-session");
 const ejsLint = require("ejs-lint");
 
@@ -17,6 +18,8 @@ app.set("views", "./views");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 // https://expressjs.com/ja/4x/api.html#express.urlencoded
+// app.use("/", require("./models/model"));
+// router.use("/", require("./models/model"));
 
 //ルーティング
 app.use("/", require("./routes/index"));
