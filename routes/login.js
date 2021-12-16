@@ -13,7 +13,7 @@ router.post(
   "/",
   (req, res, next) => {
     const bodyData = req.body;
-    clud.findUsers();
+    console.log(clud.findUsers());
   },
   (req, res, next) => {
     console.log("バリデーション");

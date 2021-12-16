@@ -73,6 +73,7 @@ router.post(
     console.log("データ受け取り完了");
     bcrypt.hash(newUserData.password, 10, (err, hash) => {
       if (err) throw err;
+      console.log(clud.createUser(newUserData, hash));
       async function loginAfterCreateUser() {
         const userData = await clud.createUser(newUserData, hash);
         return userData;
