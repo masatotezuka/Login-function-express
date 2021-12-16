@@ -36,6 +36,8 @@ const createUser = async (newUserData, password) => {
       return error;
     });
 };
+//セッションIDを追加する方法
+//新規ユーザーのIDを返却する方法
 
 //モジュールエクスポートの方法
 module.exports = { findUsers: findUsers, createUser: createUser };
