@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const connection = require("../models/db");
+const model = require("../models/model");
+const clud = require("../models/clud");
+const { createUser } = require("../models/clud");
 
 router.get("/", (req, res, next) => {
   res.render("register.ejs", { errorUndefined: [], errorDuplicate: [] });
@@ -61,25 +64,23 @@ router.post(
     );
   },
   (req, res, next) => {
-    const firstName = req.body.first;
-    const lastName = req.body.last;
-    const email = req.body.email;
-    const password = req.body.password;
+    const newUserData = {
+      firstName: req.body.first,
+      lastName: req.body.last,
+      email: req.body.email,
+      password: req.body.password,
+    };
     console.log("データ受け取り完了");
-    console.log(req.body.password);
-    bcrypt.hash(password, 10, (err, hash) => {
+    bcrypt.hash(newUserData.password, 10, (err, hash) => {
       if (err) throw err;
-      console.log(password, hash);
-      connection.query(
-        "INSERT INTO users (firstName, lastName, email, password) VALUES (?,?,?,?)",
-        [firstName, lastName, email, hash],
-        (err, results) => {
-          if (err) throw err;
-          req.session.userId = results.insertId;
-          console.log(req.session.userId);
-          res.redirect("/list-top");
-        }
-      );
+      async function loginAfterCreateUser() {
+        const userData = await clud.createUser(newUserData, hash);
+        return userData;
+      }
+      const userId = loginAfterCreateUser();
+      req.session.userId = userId;
+      console.log(`sessionId: ${req.session.userId}`);
+      res.redirect("/list-top");
     });
   }
 );

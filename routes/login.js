@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const connection = require("../models/db");
 const model = require("../models/model");
+const clud = require("../models/clud");
 
 router.get("/", (req, res, next) => {
   res.render("login.ejs", { errorMessage: [] });
@@ -12,7 +13,7 @@ router.post(
   "/",
   (req, res, next) => {
     const bodyData = req.body;
-    FindUsers(bodyData);
+    clud.findUsers();
   },
   (req, res, next) => {
     console.log("バリデーション");
@@ -27,15 +28,6 @@ router.post(
     passwordMatch(req, res);
   }
 );
-const FindUsers = () => {
-  model.User.findAll()
-    .then((record) => {
-      console.log("データ取得" + record.email);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
 
 //未入力チェック
 const mailAndPasswordValidation = (req, res, next) => {

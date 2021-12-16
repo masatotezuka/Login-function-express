@@ -45,8 +45,4 @@ User.sync();
 //   });
 // });
 
-User.findAll().then((users) => {
-  console.log(users);
-});
-
 module.exports = { sequelize: sequelize, User: User };
