@@ -1,24 +1,19 @@
-const { resolveConfig } = require("prettier");
 const model = require("./model");
 
 const findUsers = async () => {
-  await findAllUsers();
-};
-
-findAllUsers = () => {
-  return new Promise((resolve, reject) => {
-    model.User.findAll({
-      attributes: ["id", "firstName", "lastName", "email", "password"],
+  await model.User.findAll({
+    attributes: ["id", "firstName", "lastName", "email", "password"],
+  })
+    .then((record) => {
+      const json = JSON.stringify(record);
+      const obj = JSON.parse(json);
+      console.log(obj);
+      return obj;
+      //login.jsのデータを送れない。
     })
-      .then((record) => {
-        console.log("FROM DB" + record[0].firstName);
-        resolve();
-        return record[0].firstName;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 const createUser = async (newUserData, password) => {

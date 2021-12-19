@@ -3,8 +3,8 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const connection = require("../models/db");
 const model = require("../models/model");
-const clud = require("../models/clud");
-const { createUser } = require("../models/clud");
+const clud = require("../models/crud");
+const { createUser } = require("../models/crud");
 
 router.get("/", (req, res, next) => {
   res.render("register.ejs", { errorUndefined: [], errorDuplicate: [] });

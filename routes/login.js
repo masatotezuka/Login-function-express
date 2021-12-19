@@ -3,17 +3,19 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const connection = require("../models/db");
 const model = require("../models/model");
-const clud = require("../models/clud");
+const clud = require("../models/crud");
 
+console.log("GET login");
 router.get("/", (req, res, next) => {
   res.render("login.ejs", { errorMessage: [] });
 });
 
 router.post(
   "/",
-  (req, res, next) => {
+  async (req, res, next) => {
     const bodyData = req.body;
-    console.log(clud.findUsers());
+    const dbUser = await crud.findUsers();
+    console.log(`routes ${dbUser}`);
   },
   (req, res, next) => {
     console.log("バリデーション");
