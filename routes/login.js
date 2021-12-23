@@ -11,22 +11,22 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", (req, res, next) => {
-  res.status(404).send("Sorry, we cannot find that!");
   const bodyData = req.body;
   //バリデーション（ミドルウェア）
   mailAndPasswordValidation(bodyData);
   emailMatch(bodyData);
   passwordMatch(bodyData);
   const dbUsers = crud.findAllUsers();
+  res.status(404).send("Sorry, we cannot find that!");
   console.log(dbUsers);
 });
 
 //未入力チェック
-const mailAndPasswordValidation = (req, res, next) => {
+const mailAndPasswordValidation = (bodyData) => {
   const errorMessage = { emailError: "", passwordError: "" };
   const email = req.body.email;
   const password = req.body.password;
-  console.log(`email:`, email, ` password:`, password);
+  console.log(`email:${email} , password:${password}`);
   console.log("POST処理完了");
   // 正しかったらTRUE まちがっていたらFALSE
   //エラーメッセージがあったら、エラーを返す
@@ -116,3 +116,6 @@ const passwordMatch = (req, res) => {
 };
 
 module.exports = router;
+
+// バリデーション・エラーのミドルウェアを作成する
+//再利用

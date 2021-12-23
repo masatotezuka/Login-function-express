@@ -3,6 +3,9 @@ const app = express();
 const router = express.Router();
 const session = require("express-session");
 const ejsLint = require("ejs-lint");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 app.use(
   session({

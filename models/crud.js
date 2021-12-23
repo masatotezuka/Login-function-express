@@ -24,16 +24,12 @@ const createUser = async (newUserData, password) => {
     email: newUserData.email,
     password: password,
   });
-  await model.User.findOne({
+  const newUser = await model.User.findOne({
     where: { email: newUserData.email },
-  })
-    .then((data) => {
-      console.log(`返却前${data[0]["id"]}`);
-      return data[0]["id"];
-    })
-    .catch((error) => {
-      return error;
-    });
+  });
+  req.session.userId = newUser.id;
+  console.log(newUser.id);
+  console.log(req.session.userId);
 };
 //セッションIDを追加する方法
 //新規ユーザーのIDを返却する方法

@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const connection = require("../models/db");
 const model = require("../models/model");
-const clud = require("../models/crud");
+const crud = require("../models/crud");
 const { createUser } = require("../models/crud");
 
 router.get("/", (req, res, next) => {
@@ -73,9 +73,9 @@ router.post(
     console.log("データ受け取り完了");
     bcrypt.hash(newUserData.password, 10, (err, hash) => {
       if (err) throw err;
-      console.log(clud.createUser(newUserData, hash));
+      console.log(crud.createUser(newUserData, hash));
       async function loginAfterCreateUser() {
-        const userData = await clud.createUser(newUserData, hash);
+        const userData = await crud.createUser(newUserData, hash);
         return userData;
       }
       const userId = loginAfterCreateUser();

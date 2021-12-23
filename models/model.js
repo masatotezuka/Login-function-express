@@ -1,15 +1,21 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("my_db", "root", "tezukamasato1370", {
-  host: "localhost",
-  dialect: "mysql",
-  operatorsAliases: false,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-});
+const config = require("../config/config");
+const sequelize = new Sequelize(
+  config.DATABASE,
+  config.USERNAME,
+  config.PASSWORD,
+  {
+    host: config.HOST,
+    dialect: "mysql",
+    operatorsAliases: false,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000,
+    },
+  }
+);
 
 const User = sequelize.define("user", {
   id: {
