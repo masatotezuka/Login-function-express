@@ -3,33 +3,23 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const connection = require("../models/db");
 const model = require("../models/model");
-const clud = require("../models/crud");
+const crud = require("../models/crud");
 
 console.log("GET login");
 router.get("/", (req, res, next) => {
   res.render("login.ejs", { errorMessage: [] });
 });
 
-router.post(
-  "/",
-  async (req, res, next) => {
-    const bodyData = req.body;
-    const dbUser = await crud.findUsers();
-    console.log(`routes ${dbUser}`);
-  },
-  (req, res, next) => {
-    console.log("バリデーション");
-    mailAndPasswordValidation(req, res, next);
-  },
-  (req, res, next) => {
-    console.log("メールアドレスチェック");
-    emailMatch(req, res, next);
-  },
-  (req, res) => {
-    console.log("パスワードチェック");
-    passwordMatch(req, res);
-  }
-);
+router.post("/", (req, res, next) => {
+  res.status(404).send("Sorry, we cannot find that!");
+  const bodyData = req.body;
+  //バリデーション（ミドルウェア）
+  mailAndPasswordValidation(bodyData);
+  emailMatch(bodyData);
+  passwordMatch(bodyData);
+  const dbUsers = crud.findAllUsers();
+  console.log(dbUsers);
+});
 
 //未入力チェック
 const mailAndPasswordValidation = (req, res, next) => {
@@ -38,6 +28,8 @@ const mailAndPasswordValidation = (req, res, next) => {
   const password = req.body.password;
   console.log(`email:`, email, ` password:`, password);
   console.log("POST処理完了");
+  // 正しかったらTRUE まちがっていたらFALSE
+  //エラーメッセージがあったら、エラーを返す
   if (email === "") {
     errorMessage.emailError = "Invalid params";
     console.log(`email error`, errorMessage);
@@ -46,12 +38,12 @@ const mailAndPasswordValidation = (req, res, next) => {
     errorMessage.passwordError = "Invalid params";
     console.log(`password error`, errorMessage);
   }
-  if (errorMessage.length > 0) {
-    console.log(errorMessage);
-    res.status(400).render("login.ejs", { errorMessage: errorMessage });
-  } else {
-    next();
-  }
+  // 上に記述
+  // if (errorMessage.length > 0) {
+  //   console.log(errorMessage);
+  res.sendStatus(400);
+  // } else {
+  // }
 };
 
 //メールアドレスチェック
@@ -60,6 +52,7 @@ const emailMatch = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   console.log(email, password);
+
   connection.query(
     "SELECT * FROM users WHERE email = ?",
     [email],

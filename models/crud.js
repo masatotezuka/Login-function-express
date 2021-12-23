@@ -1,19 +1,20 @@
 const model = require("./model");
 
-const findUsers = async () => {
-  await model.User.findAll({
-    attributes: ["id", "firstName", "lastName", "email", "password"],
-  })
-    .then((record) => {
-      const json = JSON.stringify(record);
-      const obj = JSON.parse(json);
-      console.log(obj);
-      return obj;
-      //login.jsのデータを送れない。
-    })
-    .catch((err) => {
-      console.log(err);
+const findAllUsers = async () => {
+  try {
+    const results = await model.User.findAll({
+      attributes: ["id", "firstName", "lastName", "email", "password"],
     });
+    // const json = JSON.stringify(results);
+    // const obj = JSON.parse(json);
+    return results;
+    // login.jsのデータを送れない。
+    // .catch((err) => {
+    //   console.log(err);
+    // });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const createUser = async (newUserData, password) => {
@@ -38,4 +39,4 @@ const createUser = async (newUserData, password) => {
 //新規ユーザーのIDを返却する方法
 
 //モジュールエクスポートの方法
-module.exports = { findUsers: findUsers, createUser: createUser };
+module.exports = { findAllUsers, createUser };
