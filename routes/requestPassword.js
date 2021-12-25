@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const connection = require("../models/db");
 
 router.get("/", (req, res, next) => {
   res.render("request-password.ejs", { errorUndefined: [], errorUnmatch: [] });

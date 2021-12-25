@@ -5,13 +5,7 @@ const findAllUsers = async () => {
     const results = await model.User.findAll({
       attributes: ["id", "firstName", "lastName", "email", "password"],
     });
-    // const json = JSON.stringify(results);
-    // const obj = JSON.parse(json);
     return results;
-    // login.jsのデータを送れない。
-    // .catch((err) => {
-    //   console.log(err);
-    // });
   } catch (error) {
     console.log(error);
   }
@@ -24,15 +18,17 @@ const createUser = async (newUserData, password) => {
     email: newUserData.email,
     password: password,
   });
-  const newUser = await model.User.findOne({
-    where: { email: newUserData.email },
-  });
-  req.session.userId = newUser.id;
-  console.log(newUser.id);
-  console.log(req.session.userId);
 };
+
+const findUser = async (UserPostData) => {
+  const results = await model.User.findOne({
+    where: { email: UserPostData.email },
+  });
+  return results;
+};
+
 //セッションIDを追加する方法
 //新規ユーザーのIDを返却する方法
 
 //モジュールエクスポートの方法
-module.exports = { findAllUsers, createUser };
+module.exports = { findAllUsers, createUser, findUser };

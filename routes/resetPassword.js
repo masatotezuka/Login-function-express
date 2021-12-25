@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const connection = require("../models/db");
 
 router.get("/:email", (req, res) => {
   res.render("reset-password.ejs", {

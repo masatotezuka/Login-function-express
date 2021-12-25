@@ -13,9 +13,11 @@
               class="validate"
               name="email"
               value=""
+              required
+              minlength="1"
             />
             <label for="email">Email</label>
-            <% if(errorMessage.emailError ==='Invalid params'){ %>
+            <% if(messages[messages.length - 1] ==='Not Written Email'){ %>
             <div class="error-box">
               <p class="error-messeage"><%='メールアドレスが未入力です。' %></p>
             </div>
@@ -29,9 +31,12 @@
               id="password"
               name="password"
               class="validate"
+              required
+              minlength="1"
             />
             <label for="password">Password</label>
-            <% if(errorMessage.passwordError ==='Invalid params'){ %>
+
+            <% if(messages[messages.length - 1] ==='Not Written Password'){ %>
             <div class="error-box">
               <p class="error-messeage"><%='パスワードが未入力です' %></p>
             </div>
@@ -47,9 +52,9 @@
           />
           <label for="submit-btn"></label>
         </div>
-        <% if(errorMessage.emailUnmatch ==='Invalid params'){%>
+        <% if(messages[messages.length - 1] ==='Not Found Email'){%>
         <p id="login-unmatch"><%= 'メールアドレスが正しくありません。' %></p>
-        <% } %> <% if(errorMessage.passwordUnmatch ==='Invalid params'){%>
+        <% } %> <% if(messages[messages.length - 1] ==='Not Found Password'){%>
         <p id="login-unmatch"><%= 'パスワードが正しくありません。' %></p>
         <% } %>
       </form>
@@ -60,45 +65,48 @@
 </main>
 
 <script>
-  const form = document.getElementsByTagName("form")[0];
-  console.log(form);
-  form.addEventListener("submit", function (event) {
-    const $email = document.getElementById("email").value;
-    const $password = document.getElementById("password").value;
-    console.log($email);
-    console.log($password);
-    //文字列で取得できない。
-    const error = [$email, $password];
-    console.log(typeof email);
-    console.log(error);
-    if (error[0] === "") {
-      // イベントをキャンセルしてフォームの送信を止めます。
-      event.preventDefault();
-      showError("メールアドレス");
-    }
-    if (error[1] === "") {
-      event.preventDefault();
-      showError("パスワード");
-    }
-  });
+  // const form = document.getElementsByTagName("form")[0];
+  // console.log(form);
+  // form.addEventListener("submit", function (event) {
+  //   const $email = document.getElementById("email").value;
+  //   const $password = document.getElementById("password").value;
+  //   console.log($email);
+  //   console.log($password);
+  //   //文字列で取得できない。
+  //   const error = [$email, $password];
+  //   console.log(typeof email);
+  //   console.log(error);
+  //   if (error[0] === "") {
+  //     // イベントをキャンセルしてフォームの送信を止めます。
+  //     event.preventDefault();
+  //     showError("メールアドレス");
+  //   }
+  //   if (error[1] === "") {
+  //     event.preventDefault();
+  //     showError("パスワード");
+  //   }
+  // });
 
-  function showError(message) {
-    console.log("ERROR");
-    // alert(`${message}が未入力です。`);
-    //ノードを追加できない。
-    const $errorMessageWrapper = document.getElementsByClassName(
-      "input-field col s12"
-    );
-    console.log($errorMessageWrapper[0]);
-    const errorBox = document.createElement("div");
-    const p = document.createElement("p");
-    const errorMessage =
-      document.createTextNode("メールアドレスが未入力です。");
-    console.log(errorMessage);
-    p.style.color = "red";
-    p.appendChild(errorMessage);
-    errorBox.appendChild(p);
-    $errorMessageWrapper[0].appendChild(errorBox);
-  }
+  // function showError(message) {
+  //   console.log("ERROR");
+  //   //ノードを追加できない。
+  //   const $errorMessageWrapper = document.getElementsByClassName(
+  //     "input-field col s12"
+  //   );
+  //   console.log($errorMessageWrapper[0]);
+  //   const errorBox = document.createElement("div");
+  //   const p = document.createElement("p");
+  //   const errorMessage = document.createTextNode(`${message}が未入力です。`);
+  //   console.log(errorMessage);
+  //   p.style.color = "red";
+  //   p.appendChild(errorMessage);
+  //   errorBox.appendChild(p);
+  //   if (message === "メールアドレス") {
+  //     $errorMessageWrapper[0].appendChild(errorBox);
+  //   }
+  //   if (message === "パスワード") {
+  //     $errorMessageWrapper[1].appendChild(errorBox);
+  //   }
+  // }
 </script>
 <%- include('partials/footer'); %>

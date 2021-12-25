@@ -1,89 +1,55 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const connection = require("../models/db");
 const model = require("../models/model");
-const crud = require("../models/crud");
-const { createUser } = require("../models/crud");
+const users = require("../models/users");
+const middleware = require("../middleware");
 
 router.get("/", (req, res, next) => {
   res.render("register.ejs", { errorUndefined: [], errorDuplicate: [] });
   next();
 });
 
-router.post(
-  "/",
-  (req, res, next) => {
-    const firstName = req.body.first;
-    const lastName = req.body.last;
-    const email = req.body.email;
-    const password = req.body.password;
-    const errorMessage = [];
-    // 空入力の判定
-    if ((firstName === "") | (lastName === "")) {
-      errorMessage[0] = "氏名が未入力です。";
-    }
-    if (email === "") {
-      errorMessage[1] = "メールアドレスが未入力です。";
-    }
-    if (password === "") {
-      errorMessage[2] = "パスワードが未入力です";
-    }
-    if (errorMessage.length > 0) {
-      console.log("未入力あり");
-      res.render("register.ejs", {
-        errorUndefined: errorMessage,
-        errorDuplicate: [],
-      });
-    } else {
-      next();
-    }
-  },
-  //メールアドレスの重複チェック
-  (req, res, next) => {
-    const email = req.body.email;
-    const errorMessage = [];
-    connection.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email],
-      (err, results) => {
-        if (err) throw err;
-        console.log(results);
-        console.log(results.length);
-        if (results.length > 0) {
-          errorMessage.push("既に登録済みのメールアドレスです。");
-          res.render("register.ejs", {
-            errorUndefined: [],
-            errorDuplicate: errorMessage,
-          });
-          console.log("メールアドレスは重複しています。");
-        } else {
-          next();
-        }
-      }
+router.post("/", async (req, res, next) => {
+  const signupUserData = req.body;
+  const messages = [];
+  // 空入力の判定
+  validationSignupData(signupUserData, messages);
+  const userdataFromdbusers = await users.findUser(signupUserData);
+  if (userdataFromdbusers !== null) {
+    middleware.mailCheck(
+      userdataFromdbusers.email,
+      signupUserData.email,
+      messages,
+      "Already exist user Email"
     );
-  },
-  (req, res, next) => {
-    const newUserData = {
-      firstName: req.body.first,
-      lastName: req.body.last,
-      email: req.body.email,
-      password: req.body.password,
-    };
-    console.log("データ受け取り完了");
-    bcrypt.hash(newUserData.password, 10, (err, hash) => {
-      if (err) throw err;
-      console.log(crud.createUser(newUserData, hash));
-      async function loginAfterCreateUser() {
-        const userData = await crud.createUser(newUserData, hash);
-        return userData;
-      }
-      const userId = loginAfterCreateUser();
-      req.session.userId = userId;
-      console.log(`sessionId: ${req.session.userId}`);
-      res.redirect("/list-top");
-    });
   }
-);
+  console.log(userdataFromdbusers);
+  const hashText = await createHash(signupUserData);
+  await users.createUser(signupUserData, hashText);
+  if (messages.length > 0) {
+    res.status(400).render("register.ejs", { messages: messages });
+  } else {
+    req.session.userId = userData.id;
+    res.status(200).redirect("/list-top");
+  }
+});
+
+const validationSignupData = (signupUserData, messages) => {
+  if ((signupUserData.first === "") | (signupUserData.last === "")) {
+    messages.push("Not written name");
+  }
+  if (signupUserData.email === "") {
+    messages.push("Not written Email");
+  }
+  if (signupUserData.password === "") {
+    messagess.push("Not written password");
+  }
+};
+
+const createHash = async (signupUserData) => {
+  const hash = await bcrypt.hash(signupUserData.password, 10);
+  return hash;
+};
 
 module.exports = router;

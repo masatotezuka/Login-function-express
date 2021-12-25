@@ -4,7 +4,7 @@ const router = express.Router();
 router.get("/", (req, res, next) => {
   console.log(req.session.userId);
   if (req.session.userId === undefined) {
-    res.render("login.ejs", { errorUndefined: [], errorUnmatch: [] });
+    res.render("login.ejs", { message: [] });
   } else {
     res.render("listpage.ejs");
   }
