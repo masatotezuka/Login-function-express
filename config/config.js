@@ -4,4 +4,6 @@ module.exports = {
   USERNAME: process.env.USERNAME,
   PASSWORD: process.env.PASSWORD,
   DATABASE: process.env.DATABASE,
+  HOSTGMAIL: process.env.HOSTGMAIL,
+  HOSTGMAILPASSWORD: process.env.HOSTGMAILPASSWORD,
 };

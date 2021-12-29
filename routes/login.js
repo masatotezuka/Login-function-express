@@ -13,8 +13,8 @@ router.post("/", async (req, res, next) => {
   const loginUserData = req.body;
   const messages = [];
   mailAndPasswordValidation(loginUserData, messages);
-  const userFromdb = await users.findUser(loginUserData);
-  middleware.mailCheck(userFromdb, null, messages, "Not Found Email");
+  const userFromdb = await users.findUser(loginUserData.email);
+  middleware.mailCheck(userFromdb, null, messages, "Not found Email");
   if (userFromdb !== null) {
     await passwordCompare(
       loginUserData.password,
@@ -33,12 +33,16 @@ router.post("/", async (req, res, next) => {
 
 //未入力チェック
 const mailAndPasswordValidation = (loginUserData, messages) => {
-  if (loginUserData.email === "") {
-    messagess.push("Not written Email");
-  }
-  if (loginUserData.password === "") {
-    messagess.push("Not written password");
-  }
+  middleware.validationPostUserData(
+    loginUserData.email,
+    messages,
+    "Not written Email"
+  );
+  middleware.validationPostUserData(
+    loginUserData.email,
+    messages,
+    "Not written password"
+  );
 };
 
 const passwordCompare = async (loginPassword, fromdbPassword, messages) => {
@@ -46,7 +50,7 @@ const passwordCompare = async (loginPassword, fromdbPassword, messages) => {
   if (comparedResult) {
     console.log("compare OK");
   } else {
-    messages.push("Not Found Password");
+    messages.push("Not found Password");
   }
 };
 

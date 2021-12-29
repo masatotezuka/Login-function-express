@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 //ルーティング
 app.use("/", require("./routes/index"));
 app.use("/login", require("./routes/login"));
-app.use("/newregister", require("./routes/register"));
+app.use("/signup", require("./routes/signup"));
 app.use("/list-top", require("./routes/listtop"));
 app.use("/logout", require("./routes/logout"));
 app.use("/requestpassword", require("./routes/requestPassword"));

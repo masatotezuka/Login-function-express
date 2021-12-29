@@ -22,13 +22,21 @@ const createUser = async (newUserData, password) => {
 
 const findUser = async (UserPostData) => {
   const results = await model.User.findOne({
-    where: { email: UserPostData.email },
+    where: { email: UserPostData },
   });
   return results;
 };
 
+const updateUser = async (hashText, postEmail) => {
+  await model.User.update(
+    {
+      password: hashText,
+    },
+    { where: { email: postEmail } }
+  );
+};
 //セッションIDを追加する方法
 //新規ユーザーのIDを返却する方法
 
 //モジュールエクスポートの方法
-module.exports = { findAllUsers, createUser, findUser };
+module.exports = { findAllUsers, createUser, findUser, updateUser };
