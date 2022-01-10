@@ -10,15 +10,19 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const postUserData = req.body;
+  // const postUserJSONData = JSON.stringify(req.body);
+  // const postUserData = JSON.parse(postUserJSONData);
+  const postUserEmail = req.body.email;
+  // オブジェクトのままでは渡せない. https://hdix.hatenablog.com/entry/2018/01/05/163935
   const messages = [];
   middleware.validationPostUserData(
-    postUserData,
+    postUserEmail,
     messages,
     "Not wrriten Email"
   );
-  const emailFromuserdb = await users.findUser(postUserData);
-  await sendGamil(postUserData, emailFromuserdb, messages);
+  const emailFromuserdb = await users.findUser(postUserEmail);
+  console.log(emailFromuserdb);
+  await sendGamil(postUserEmail, emailFromuserdb, messages);
   if (messages.length > 0) {
     res.render("request-password.ejs", { messages: messages });
   } else {
@@ -27,7 +31,7 @@ router.post("/", async (req, res, next) => {
 });
 
 //Ref:https://www.npmjs.com/package/gmail-send
-const sendGamil = async (postUserData, emailFromuserdb, messages) => {
+const sendGamil = async (postUserEmail, emailFromuserdb, messages) => {
   try {
     if (emailFromuserdb === null) {
       messages.push("Not found Email");
@@ -35,11 +39,11 @@ const sendGamil = async (postUserData, emailFromuserdb, messages) => {
       const send = require("gmail-send")({
         user: config.HOSTGMAIL,
         pass: config.HOSTGMAILPASSWORD,
-        to: postUserData.email,
+        to: postUserEmail,
         subject: "パスワードを設定してください",
         text: `パスワードのリセットを承りました。
         下記ＵＲＬより、パスワードを再設定してください。
-        http://localhost:8000/resetpassword/${postUserData.email}`,
+        http://localhost:8000/resetpassword/${postUserEmail}`,
       });
       await send();
     }

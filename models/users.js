@@ -35,8 +35,6 @@ const updateUser = async (hashText, postEmail) => {
     { where: { email: postEmail } }
   );
 };
-//セッションIDを追加する方法
-//新規ユーザーのIDを返却する方法
 
 //モジュールエクスポートの方法
 module.exports = { findAllUsers, createUser, findUser, updateUser };

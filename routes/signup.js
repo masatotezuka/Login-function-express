@@ -49,12 +49,12 @@ const validationSignupData = (signupUserData, messages) => {
   middleware.validationPostUserData(
     signupUserData.email,
     messages,
-    "Not written name"
+    "Not written email"
   );
   middleware.validationPostUserData(
     signupUserData.password,
     messages,
-    "Not written name"
+    "Not written password"
   );
 };
 
