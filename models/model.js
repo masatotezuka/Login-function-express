@@ -41,14 +41,4 @@ const User = sequelize.define("user", {
 
 User.sync();
 
-// User.sync().then(() => {
-//   // Table created
-//   return User.create({
-//     firstName: "John",
-//     lastName: "Hancock",
-//     email: "m.tezuka@backtech.co.jp",
-//     password: "test",
-//   });
-// });
-
 module.exports = { sequelize: sequelize, User: User };

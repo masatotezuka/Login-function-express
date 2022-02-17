@@ -5,6 +5,7 @@ const model = require("../models/model");
 const users = require("../models/users");
 const middleware = require("../middleware");
 
+//ログイン画面
 router.get("/", (req, res, next) => {
   res.render("login.ejs", { messages: [] });
 });
@@ -55,6 +56,3 @@ const passwordCompare = async (loginPassword, fromdbPassword, messages) => {
 };
 
 module.exports = router;
-
-// バリデーション・エラーのミドルウェアを作成する
-//再利用

@@ -15,6 +15,7 @@ app.use(
   })
 );
 // https://www.npmjs.com/package/express-session
+//https://qiita.com/hika7719/items/3282ab2ebcdaf080912e
 
 app.use("/public", express.static("public"));
 app.set("views", "./views");
@@ -22,8 +23,6 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 // app.use(ejsLint());
 // https://expressjs.com/ja/4x/api.html#express.urlencoded
-// app.use("/", require("./models/model"));
-// router.use("/", require("./models/model"));
 
 //ルーティング
 app.use("/", require("./routes/index"));

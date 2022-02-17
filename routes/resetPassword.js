@@ -33,7 +33,7 @@ router.post("/:email", async (req, res) => {
       res.status(200).redirect("/list-top");
     }
   } catch (error) {
-    res.send(error);
+    res.status(400).send(error);
   }
 });
 
