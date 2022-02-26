@@ -1,5 +1,5 @@
 # Login-function-express
 
-
-hello
-hello
+<h2>不明点</h2>
+<p>・パスワードの更新機能をputで実装する方法</p>
+<p>・パラメータとクエリパラメータそれぞれの使用ケース</p>

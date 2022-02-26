@@ -1,66 +1,58 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const connection = require("../models/db");
+const model = require("../models/model");
+const users = require("../models/users");
+const middleware = require("../middleware");
 
+//ログイン画面
 router.get("/", (req, res, next) => {
-  res.render("login.ejs", { errorUndefined: [], errorUnmatch: [] });
+  res.render("login.ejs", { messages: [] });
 });
 
-router.post(
-  "/",
-  (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    const errorMessage = [];
-    console.log(`email:`, email, ` password:`, password);
-    console.log("POST処理完了");
-    if (email === "") {
-      errorMessage[0] = "メールアドレスが未入力です。";
-    }
-    if (password === "") {
-      errorMessage[1] = "パスワードが未入力です。";
-    }
-    if (errorMessage.length > 0) {
-      res.render("login.ejs", {
-        errorUndefined: errorMessage,
-        errorUnmatch: [],
-      });
-    } else {
-      next();
-    }
-  },
-  (req, res, next) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    const errorMessage = [];
-    console.log(email, password);
-    connection.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email],
-      (err, results) => {
-        console.log(results);
-        if (err) throw err;
-        const hashPass = results[0].password;
-        console.log(hashPass);
-        bcrypt.compare(password, hashPass, (err, isEqual) => {
-          if (isEqual) {
-            req.session.userId = results[0].id;
-            console.log(req.session.userId);
-            req.session.email = results[0].email;
-            console.log(req.session.email);
-            res.redirect("/list-top");
-          } else {
-            errorMessage.push("ログイン情報が正しくありません。");
-            res.render("login.ejs", {
-              errorUndefined: [],
-              errorUnmatch: errorMessage,
-            });
-          }
-        });
-      }
+router.post("/", async (req, res, next) => {
+  const loginUserData = req.body;
+  const messages = [];
+  mailAndPasswordValidation(loginUserData, messages);
+  const userFromdb = await users.findUser(loginUserData.email);
+  middleware.mailCheck(userFromdb, null, messages, "Not found Email");
+  if (userFromdb !== null) {
+    await passwordCompare(
+      loginUserData.password,
+      userFromdb.password,
+      messages
     );
   }
-);
+
+  if (messages.length > 0) {
+    res.status(400).render("login.ejs", { messages: messages });
+  } else {
+    req.session.userId = userFromdb.id;
+    res.status(200).redirect("/list-top");
+  }
+});
+
+//未入力チェック
+const mailAndPasswordValidation = (loginUserData, messages) => {
+  middleware.validationPostUserData(
+    loginUserData.email,
+    messages,
+    "Not written Email"
+  );
+  middleware.validationPostUserData(
+    loginUserData.email,
+    messages,
+    "Not written password"
+  );
+};
+
+const passwordCompare = async (loginPassword, fromdbPassword, messages) => {
+  const comparedResult = await bcrypt.compare(loginPassword, fromdbPassword);
+  if (comparedResult) {
+    console.log("compare OK");
+  } else {
+    messages.push("Not found Password");
+  }
+};
 
 module.exports = router;

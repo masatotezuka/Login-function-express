@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="public/css/style.css" type="text/css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <title>パスワードをリセット</title>
-  </head>
-  <body>
-    <header></header>
-    <main>
-      <div class="after-post-mail-box">
-        <p>パスワードリセットを受理しました。</p>
-        <p>入力アドレスに、パスワード登録用のURLを送信しました。</p>
-        <p>メールに従い、パスワード設定をしてください。</p>
-      </div>
-    </main>
-    <footer></footer>
-  </body>
-</html>
+<% const pageInformation =
+{title:'パスワードをリセット',description:'メール送信後の画面' } %>
+<%-include('partials/header', {pageInfo:pageInformation}); %>
+<main>
+  <div class="after-post-mail-box">
+    <p>パスワードリセットを受理しました。</p>
+    <p>入力アドレスに、パスワード登録用のURLを送信しました。</p>
+    <p>メールに従い、パスワード設定をしてください。</p>
+  </div>
+</main>
+<%- include('partials/footer'); %>
