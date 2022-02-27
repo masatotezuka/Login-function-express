@@ -1,8 +1,8 @@
-const model = require("./model");
+const User = require("../models").User;
 
 const findAllUsers = async () => {
   try {
-    const results = await model.User.findAll({
+    const results = await User.findAll({
       attributes: ["id", "firstName", "lastName", "email", "password"],
     });
     return results;
@@ -12,23 +12,32 @@ const findAllUsers = async () => {
 };
 
 const createUser = async (newUserData, password) => {
-  await model.User.create({
-    firstName: newUserData.firstName,
-    lastName: newUserData.lastName,
-    email: newUserData.email,
-    password: password,
-  });
+  try {
+    console.log(newUserData);
+    return await User.create({
+      firstName: newUserData.firstName,
+      lastName: newUserData.lastName,
+      email: newUserData.email,
+      password: password,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const findUser = async (UserPostData) => {
-  const results = await model.User.findOne({
-    where: { email: UserPostData },
-  });
-  return results;
+  try {
+    const results = await User.findOne({
+      where: { email: UserPostData },
+    });
+    return results;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const updateUser = async (hashText, postEmail) => {
-  await model.User.update(
+  await User.update(
     {
       password: hashText,
     },

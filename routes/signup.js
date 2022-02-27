@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const model = require("../models/model");
-const users = require("../models/users");
+const users = require("./users");
 const middleware = require("../middleware");
 
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
+  const db = await users.findAllUsers();
+  console.log(db);
   res.render("signup.ejs", { messages: [] });
   next();
 });
@@ -12,7 +13,7 @@ router.get("/", (req, res, next) => {
 router.post("/", async (req, res, next) => {
   const signupUserData = req.body;
   const messages = [];
-  console.log(signupUserData.first);
+  console.log(signupUserData.firstName);
   validationSignupData(signupUserData, messages);
   const userdataFromdbusers = await users.findUser(signupUserData.email);
   if (userdataFromdbusers !== null) {
@@ -30,6 +31,7 @@ router.post("/", async (req, res, next) => {
     res.status(400).render("signup.ejs", { messages: messages });
   } else {
     const newuserFromdbusers = await users.findUser(signupUserData);
+    console.log(newuserFromdbusers);
     req.session.userId = newuserFromdbusers.id;
     res.status(200).redirect("/list-top");
   }
@@ -37,12 +39,12 @@ router.post("/", async (req, res, next) => {
 
 const validationSignupData = (signupUserData, messages) => {
   middleware.validationPostUserData(
-    signupUserData.first,
+    signupUserData.firstName,
     messages,
     "Not written name"
   );
   middleware.validationPostUserData(
-    signupUserData.last,
+    signupUserData.lastName,
     messages,
     "Not written name"
   );
