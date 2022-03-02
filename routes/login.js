@@ -27,7 +27,7 @@ router.post("/", async (req, res, next) => {
     res.status(400).render("login.ejs", { messages: messages });
   } else {
     req.session.userId = userFromdb.id;
-    res.status(200).redirect("/list-top");
+    res.redirect("/list-top");
   }
 });
 
