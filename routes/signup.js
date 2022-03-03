@@ -10,15 +10,30 @@ router.get("/", async (req, res, next) => {
   next();
 });
 
+// async (newUserData, password) => {
+//   try {
+//     console.log(newUserData);
+//     await User.create({
+//       firstName: newUserData.firstName,
+//       lastName: newUserData.lastName,
+//       email: newUserData.email,
+//       password: password,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 router.post("/", async (req, res, next) => {
   const signupUserData = req.body;
   const messages = [];
-  console.log(signupUserData.firstName);
+  console.log(typeof signupUserData.firstName);
   validationSignupData(signupUserData, messages);
-  const userdataFromdbusers = await users.findUser(signupUserData.email);
-  if (userdataFromdbusers !== null) {
+  const userDataFromUsers = await users.findUser(signupUserData.email);
+  console.log(`19行目:${userDataFromUsers}`);
+  if (userDataFromUsers !== null) {
     middleware.mailCheck(
-      userdataFromdbusers.email,
+      userDataFromUsers.email,
       signupUserData.email,
       messages,
       "Already exist user Email"
@@ -26,13 +41,14 @@ router.post("/", async (req, res, next) => {
   }
   const hashText = await middleware.createHash(signupUserData.password);
   await users.createUser(signupUserData, hashText);
+  console.log("Heloo!");
   if (messages.length > 0) {
     console.log(messages);
     res.status(400).render("signup.ejs", { messages: messages });
   } else {
-    const newuserFromdbusers = await users.findUser(signupUserData);
-    console.log(newuserFromdbusers);
-    req.session.userId = newuserFromdbusers.id;
+    const newUserFromUsers = await users.findUser(signupUserData);
+    console.log(newUserFromUsers);
+    req.session.userId = newUserFromUsers.id;
     res.status(200).redirect("/list-top");
   }
 });

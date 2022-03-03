@@ -14,7 +14,7 @@ const findAllUsers = async () => {
 const createUser = async (newUserData, password) => {
   try {
     console.log(newUserData);
-    return await User.create({
+    await User.create({
       firstName: newUserData.firstName,
       lastName: newUserData.lastName,
       email: newUserData.email,

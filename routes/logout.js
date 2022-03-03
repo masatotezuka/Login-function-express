@@ -5,7 +5,7 @@ const router = express.Router();
 router.post("/", (req, res, next) => {
   req.session.destroy((error) => {
     if (error) throw error;
-    console.log("deleted sesstion");
+    console.log("deleted session");
     res.redirect("/");
   });
 });
