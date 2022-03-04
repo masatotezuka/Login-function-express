@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const users = require("./users");
-const middleware = require("../middleware");
+const middleware = require("../middlewares/middleware");
 
 router.get("/:email", (req, res) => {
   res.render("reset-password.ejs", {
     messages: [],
     email: [req.params.email],
   });
-  console.log(req.params.email);
 });
 
 router.post("/:email", async (req, res) => {

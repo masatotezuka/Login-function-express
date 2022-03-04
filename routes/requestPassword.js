@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const users = require("./users");
-const middleware = require("../middleware");
+const middleware = require("../middlewares/middleware");
 const config = require("../config/config");
+const res = require("express/lib/response");
 
 router.get("/", (req, res, next) => {
   res.render("request-password.ejs", { messages: [] });
@@ -47,7 +48,7 @@ const sendGamil = async (postUserEmail, emailFromuserdb, messages) => {
       await send();
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).send(error);
   }
 };
 module.exports = router;

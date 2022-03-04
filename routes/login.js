@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const users = require("./users");
-const middleware = require("../middleware");
+const middleware = require("../middlewares/middleware");
 
 //ログイン画面
 router.get("/", (req, res, next) => {
@@ -48,7 +48,6 @@ const mailAndPasswordValidation = (loginUserData, messages) => {
 const passwordCompare = async (loginPassword, fromdbPassword, messages) => {
   const comparedResult = await bcrypt.compare(loginPassword, fromdbPassword);
   if (comparedResult) {
-    console.log("compare OK");
   } else {
     messages.push("Not found Password");
   }
