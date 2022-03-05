@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const users = require("./users");
-const middleware = require("../middlewares/middleware");
+const users = require("../controllers/users");
+const utility = require("../utility/index");
 
 router.get("/", async (req, res, next) => {
   const db = await users.findAllUsers();
@@ -13,21 +13,20 @@ router.post("/", async (req, res, next) => {
   const signupUserData = req.body;
   const messages = [];
   validationSignupData(signupUserData, messages);
-  console.log(signupUserData);
   const userDataFromUsers = await users.findUser(signupUserData.email);
   if (userDataFromUsers !== null) {
-    middleware.mailCheck(
+    utility.mailCheck(
       userDataFromUsers.email,
       signupUserData.email,
       messages,
       "Already exist user Email"
     );
   }
-  const hashText = await middleware.createHash(signupUserData.password);
-  await users.createUser(signupUserData, hashText);
   if (messages.length > 0) {
     res.status(400).render("signup.ejs", { messages: messages });
   } else {
+    const hashText = await utility.createHash(signupUserData.password);
+    await users.createUser(signupUserData, hashText);
     const newUserFromUsers = await users.findUser(signupUserData.email);
     req.session.userId = newUserFromUsers.id;
     res.status(200).redirect("/list-top");
@@ -35,22 +34,22 @@ router.post("/", async (req, res, next) => {
 });
 
 const validationSignupData = (signupUserData, messages) => {
-  middleware.validationPostUserData(
+  utility.validationPostUserData(
     signupUserData.firstName,
     messages,
     "Not written name"
   );
-  middleware.validationPostUserData(
+  utility.validationPostUserData(
     signupUserData.lastName,
     messages,
     "Not written name"
   );
-  middleware.validationPostUserData(
+  utility.validationPostUserData(
     signupUserData.email,
     messages,
     "Not written email"
   );
-  middleware.validationPostUserData(
+  utility.validationPostUserData(
     signupUserData.password,
     messages,
     "Not written password"

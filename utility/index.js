@@ -1,5 +1,11 @@
 const bcrypt = require("bcrypt");
 
+const errorHandle = (filename, errorMessages) => {
+  if (errorMessages.length > 0) {
+    res.render(filename, errorMessages);
+  }
+};
+
 const mailCheck = (fromdbUsers, checkData, messages, messageText) => {
   if (fromdbUsers === checkData) {
     messages.push(messageText);
@@ -21,4 +27,4 @@ const createHash = async (postUserPassword) => {
   }
 };
 
-module.exports = { mailCheck, validationPostUserData, createHash };
+module.exports = { errorHandle, mailCheck, validationPostUserData, createHash };

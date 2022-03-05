@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const users = require("./users");
-const middleware = require("../middlewares/middleware");
+const users = require("../controllers/users");
+const utility = require("../utility/index");
 
 router.get("/:email", (req, res) => {
   res.render("reset-password.ejs", {
@@ -15,21 +15,13 @@ router.post("/:email", async (req, res) => {
     const password = req.body.password;
     const email = req.params.email;
     const messages = [];
-    middleware.validationPostUserData(
-      password,
-      messages,
-      "Not written password"
-    );
-    const hashText = await middleware.createHash(password);
+    utility.validationPostUserData(password, messages, "Not written password");
+    utility.errorHandle("reset-password.ejs", messages);
+    const hashText = await utility.createHash(password);
     await users.updateUser(hashText, email);
     const updateUserData = await users.findUser(email);
-
-    if (messages.length > 0) {
-      res.status.render("reset-password.ejs", { messages: messages });
-    } else {
-      req.session.userId = updateUserData.id;
-      res.status(200).redirect("/list-top");
-    }
+    req.session.userId = updateUserData.id;
+    res.status(200).redirect("/list-top");
   } catch (error) {
     res.status(400).send(error);
   }

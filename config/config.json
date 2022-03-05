@@ -1,22 +1,22 @@
 {
   "development": {
     "username": "root",
-    "password": "tezukamasato1370",
-    "database": "db_dev",
+    "password": "bluebird",
+    "database": "database_development",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "db_test",
+    "password": "bluebird",
+    "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "db_production",
+    "password": "bluebird",
+    "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

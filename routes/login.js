@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const users = require("./users");
-const middleware = require("../middlewares/middleware");
+const users = require("../controllers/users");
+const utility = require("../utility/index");
 
 //ログイン画面
 router.get("/", (req, res, next) => {
@@ -14,7 +14,7 @@ router.post("/", async (req, res, next) => {
   const messages = [];
   mailAndPasswordValidation(loginUserData, messages);
   const userFromdb = await users.findUser(loginUserData.email);
-  middleware.mailCheck(userFromdb, null, messages, "Not found Email");
+  utility.mailCheck(userFromdb, null, messages, "Not found Email");
   if (userFromdb !== null) {
     await passwordCompare(
       loginUserData.password,
@@ -33,12 +33,12 @@ router.post("/", async (req, res, next) => {
 
 //未入力チェック
 const mailAndPasswordValidation = (loginUserData, messages) => {
-  middleware.validationPostUserData(
+  utility.validationPostUserData(
     loginUserData.email,
     messages,
     "Not written Email"
   );
-  middleware.validationPostUserData(
+  utility.validationPostUserData(
     loginUserData.email,
     messages,
     "Not written password"

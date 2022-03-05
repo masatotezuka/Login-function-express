@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const { User } = require("../models");
 
 const findAllUsers = async () => {
@@ -8,13 +7,12 @@ const findAllUsers = async () => {
     });
     return results;
   } catch (error) {
-    console.log(error);
+    res.status(500).send(error);
   }
 };
 
 const createUser = async (newUserData, password) => {
   try {
-    console.log(newUserData);
     await User.create({
       firstName: newUserData.firstName,
       lastName: newUserData.lastName,
@@ -22,14 +20,12 @@ const createUser = async (newUserData, password) => {
       password: password,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 };
 
 const findUser = async (UserPostData) => {
   try {
-    console.log("findUser", UserPostData);
     const results = await User.findOne({
       where: { email: UserPostData },
     });
@@ -52,5 +48,4 @@ const updateUser = async (hashText, postEmail) => {
   }
 };
 
-//モジュールエクスポートの方法
 module.exports = { findAllUsers, createUser, findUser, updateUser };
