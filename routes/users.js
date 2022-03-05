@@ -29,6 +29,7 @@ const createUser = async (newUserData, password) => {
 
 const findUser = async (UserPostData) => {
   try {
+    console.log("findUser", UserPostData);
     const results = await User.findOne({
       where: { email: UserPostData },
     });

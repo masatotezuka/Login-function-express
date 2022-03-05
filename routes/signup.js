@@ -13,6 +13,7 @@ router.post("/", async (req, res, next) => {
   const signupUserData = req.body;
   const messages = [];
   validationSignupData(signupUserData, messages);
+  console.log(signupUserData);
   const userDataFromUsers = await users.findUser(signupUserData.email);
   if (userDataFromUsers !== null) {
     middleware.mailCheck(
@@ -27,7 +28,7 @@ router.post("/", async (req, res, next) => {
   if (messages.length > 0) {
     res.status(400).render("signup.ejs", { messages: messages });
   } else {
-    const newUserFromUsers = await users.findUser(signupUserData);
+    const newUserFromUsers = await users.findUser(signupUserData.email);
     req.session.userId = newUserFromUsers.id;
     res.status(200).redirect("/list-top");
   }
