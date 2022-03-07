@@ -1,8 +1,8 @@
-const { User } = require("../models");
+const { Users } = require("../models");
 
 const findAllUsers = async () => {
   try {
-    const results = await User.findAll({
+    const results = await Users.findAll({
       attributes: ["id", "firstName", "lastName", "email", "password"],
     });
     return results;
@@ -13,7 +13,7 @@ const findAllUsers = async () => {
 
 const createUser = async (newUserData, password) => {
   try {
-    await User.create({
+    await Users.create({
       firstName: newUserData.firstName,
       lastName: newUserData.lastName,
       email: newUserData.email,
@@ -26,7 +26,7 @@ const createUser = async (newUserData, password) => {
 
 const findUser = async (UserPostData) => {
   try {
-    const results = await User.findOne({
+    const results = await Users.findOne({
       where: { email: UserPostData },
     });
     return results;
@@ -35,17 +35,34 @@ const findUser = async (UserPostData) => {
   }
 };
 
-const updateUser = async (hashText, postEmail) => {
+const updateUser = async (hashText, postedEmail) => {
   try {
-    await User.update(
+    await Users.update(
       {
         password: hashText,
       },
-      { where: { email: postEmail } }
+      { where: { email: postedEmail } }
     );
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
-module.exports = { findAllUsers, createUser, findUser, updateUser };
+const updateToken = async (postedToken, postedEmail) => {
+  try {
+    await Users.update(
+      { verificationToken: postedToken },
+      { where: { email: postedEmail } }
+    );
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports = {
+  findAllUsers,
+  createUser,
+  findUser,
+  updateUser,
+  updateToken,
+};

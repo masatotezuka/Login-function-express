@@ -3,8 +3,11 @@ const router = express.Router();
 
 router.post("/", (req, res, next) => {
   req.session.destroy((error) => {
-    if (error) throw error;
-    res.redirect("/");
+    try {
+      res.redirect("/");
+    } catch (error) {
+      res.status(404).send(error);
+    }
   });
 });
 

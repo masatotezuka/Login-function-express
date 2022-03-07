@@ -1,25 +1,44 @@
 const express = require("express");
 const router = express.Router();
 const users = require("../controllers/users");
-const utility = require("../utility/index");
+const util = require("../util/index");
+const { Users } = require("../models");
 
-router.get("/:email", (req, res) => {
+router.get("/:token", (req, res) => {
   res.render("reset-password.ejs", {
     messages: [],
-    email: [req.params.email],
+    token: [req.params.token],
   });
 });
 
-router.post("/:email", async (req, res) => {
+router.post("/:token", async (req, res) => {
   try {
     const password = req.body.password;
-    const email = req.params.email;
+    const currentToken = req.params.token;
     const messages = [];
-    utility.validationPostUserData(password, messages, "Not written password");
-    utility.errorHandle("reset-password.ejs", messages);
-    const hashText = await utility.createHash(password);
-    await users.updateUser(hashText, email);
-    const updateUserData = await users.findUser(email);
+
+    util.validationPostUserData(password, messages, "Not written password");
+    if (messages.length > 0) {
+      return res
+        .status(400)
+        .render("reset-password.ejs", { messages: messages });
+    }
+
+    const hashText = await util.createHash(password);
+    const updateUserData = await Users.findOne({
+      where: { verificationToken: currentToken },
+    });
+
+    await Users.update(
+      {
+        password: password,
+        verificationToken: null,
+      },
+      {
+        where: { verificationToken: currentToken },
+      }
+    );
+
     req.session.userId = updateUserData.id;
     res.status(200).redirect("/list-top");
   } catch (error) {
