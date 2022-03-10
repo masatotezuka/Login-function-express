@@ -5,7 +5,7 @@ const util = require("../util/index");
 const { Users } = require("../models");
 
 router.get("/:token", (req, res) => {
-  res.render("reset-password.ejs", {
+  res.render("resetPassword.ejs", {
     messages: [],
     token: [req.params.token],
   });
@@ -21,7 +21,7 @@ router.post("/:token", async (req, res) => {
     if (messages.length > 0) {
       return res
         .status(400)
-        .render("reset-password.ejs", { messages: messages });
+        .render("resetPassword.ejs", { messages: messages });
     }
 
     const hashText = await util.createHash(password);

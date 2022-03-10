@@ -14,6 +14,10 @@ router.post("/", async (req, res, next) => {
   const messages = [];
 
   mailAndPasswordValidation(loginUserData, messages);
+  if (messages.length > 0) {
+    return res.status(400).render("login.ejs", { messages: messages });
+  }
+
   const userFromUserModel = await users.findUser(loginUserData.email);
   util.mailCheck(userFromUserModel, null, messages, "Not found Email");
   if (messages.length > 0)

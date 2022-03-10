@@ -5,7 +5,7 @@ const util = require("../util/index");
 const config = require("../config/mail");
 
 router.get("/", (req, res, next) => {
-  res.render("request-password.ejs", { messages: [] });
+  res.render("requestPassword.ejs", { messages: [] });
 });
 
 router.post("/", async (req, res, next) => {
@@ -15,27 +15,24 @@ router.post("/", async (req, res, next) => {
 
   util.validationPostUserData(email, messages, "Not written Email");
   if (messages.length > 0) {
-    return res.render("request-password.ejs", messages);
+    return res.render("requestPassword.ejs", messages);
   }
-  console.log(email);
+
   const emailFromUserModel = await users.findUser(email);
-  console.log(emailFromUserModel);
-  console.log(config.HOSTGMAIL);
-  console.log(config.HOSTGMAILPASSWORD);
   const currentToken = util.createUuid();
   await users.updateToken(currentToken, email);
 
   await sendGmail(email, emailFromUserModel, currentToken, res);
-  res.render("after-post-mail.ejs");
+  res.render("afterPostedMail.ejs");
 });
 
 //Ref:https://www.npmjs.com/package/gmail-send
-const sendGmail = async (postUserEmail, emailFromUserModel, token, res) => {
+const sendGmail = (postUserEmail, emailFromUserModel, token, res) => {
   try {
     if (emailFromUserModel === null) {
       res
         .status(404)
-        .render("request-password.ejs", { messages: ["Not found Email"] });
+        .render("requestPassword.ejs", { messages: ["Not found Email"] });
     } else {
       const send = require("gmail-send")({
         user: config.HOSTGMAIL,
@@ -46,7 +43,7 @@ const sendGmail = async (postUserEmail, emailFromUserModel, token, res) => {
         下記URLより、パスワードを再設定してください。
         http://localhost:8000/resetpassword/${token}`,
       });
-      await send();
+      send();
     }
   } catch (error) {
     res.status(500).send(error);
