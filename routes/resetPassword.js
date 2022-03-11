@@ -1,37 +1,46 @@
 const express = require("express");
 const router = express.Router();
-const model = require("../models/model");
-const users = require("../models/users");
-const middleware = require("../middleware");
+const users = require("../controllers/users");
+const util = require("../util/index");
+const { Users } = require("../models");
 
-router.get("/:email", (req, res) => {
-  res.render("reset-password.ejs", {
+router.get("/:token", (req, res) => {
+  res.render("resetPassword.ejs", {
     messages: [],
-    email: [req.params.email],
+    token: [req.params.token],
   });
-  console.log(req.params.email);
 });
 
-router.post("/:email", async (req, res) => {
+router.post("/:token", async (req, res) => {
   try {
     const password = req.body.password;
-    const email = req.params.email;
+    const currentToken = req.params.token;
     const messages = [];
-    middleware.validationPostUserData(
-      password,
-      messages,
-      "Not written password"
-    );
-    const hashText = await middleware.createHash(password);
-    await users.updateUser(hashText, email);
-    const updateUserData = await users.findUser(email);
 
+    util.validationPostUserData(password, messages, "Not written password");
     if (messages.length > 0) {
-      res.status.render("reset-password.ejs", { messages: messages });
-    } else {
-      req.session.userId = updateUserData.id;
-      res.status(200).redirect("/list-top");
+      return res
+        .status(400)
+        .render("resetPassword.ejs", { messages: messages });
     }
+
+    const hashText = await util.createHash(password);
+    const updateUserData = await Users.findOne({
+      where: { verificationToken: currentToken },
+    });
+
+    await Users.update(
+      {
+        password: password,
+        verificationToken: null,
+      },
+      {
+        where: { verificationToken: currentToken },
+      }
+    );
+
+    req.session.userId = updateUserData.id;
+    res.status(200).redirect("/list-top");
   } catch (error) {
     res.status(400).send(error);
   }

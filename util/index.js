@@ -1,4 +1,11 @@
 const bcrypt = require("bcrypt");
+const moment = require("moment");
+const uuid = require("uuid");
+
+const createUuid = () => {
+  const currentDate = moment().format("YYYY-MM-DD");
+  return `${uuid.v4()}-${currentDate}`;
+};
 
 const mailCheck = (fromdbUsers, checkData, messages, messageText) => {
   if (fromdbUsers === checkData) {
@@ -21,4 +28,9 @@ const createHash = async (postUserPassword) => {
   }
 };
 
-module.exports = { mailCheck, validationPostUserData, createHash };
+module.exports = {
+  createUuid,
+  mailCheck,
+  validationPostUserData,
+  createHash,
+};

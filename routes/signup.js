@@ -1,57 +1,57 @@
 const express = require("express");
 const router = express.Router();
-const model = require("../models/model");
-const users = require("../models/users");
-const middleware = require("../middleware");
+const users = require("../controllers/users");
+const util = require("../util/index");
 
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
   res.render("signup.ejs", { messages: [] });
-  next();
 });
 
 router.post("/", async (req, res, next) => {
   const signupUserData = req.body;
   const messages = [];
-  console.log(signupUserData.first);
+
   validationSignupData(signupUserData, messages);
-  const userdataFromdbusers = await users.findUser(signupUserData.email);
-  if (userdataFromdbusers !== null) {
-    middleware.mailCheck(
-      userdataFromdbusers.email,
+  if (messages.length > 0) {
+    return res.render("signup.ejs", { messages: messages });
+  }
+
+  const userDataFromUsers = await users.findUser(signupUserData.email);
+  if (userDataFromUsers !== null) {
+    util.mailCheck(
+      userDataFromUsers.email,
       signupUserData.email,
       messages,
       "Already exist user Email"
     );
+    return res.status(500).render("signup.ejs", { messages: messages });
   }
-  const hashText = await middleware.createHash(signupUserData.password);
+
+  const hashText = await util.createHash(signupUserData.password);
   await users.createUser(signupUserData, hashText);
-  if (messages.length > 0) {
-    console.log(messages);
-    res.status(400).render("signup.ejs", { messages: messages });
-  } else {
-    const newuserFromdbusers = await users.findUser(signupUserData);
-    req.session.userId = newuserFromdbusers.id;
-    res.status(200).redirect("/list-top");
-  }
+  const newUserFromUsers = await users.findUser(signupUserData.email);
+
+  req.session.userId = newUserFromUsers.id;
+  res.status(200).redirect("/list-top");
 });
 
 const validationSignupData = (signupUserData, messages) => {
-  middleware.validationPostUserData(
-    signupUserData.first,
+  util.validationPostUserData(
+    signupUserData.firstName,
     messages,
     "Not written name"
   );
-  middleware.validationPostUserData(
-    signupUserData.last,
+  util.validationPostUserData(
+    signupUserData.lastName,
     messages,
     "Not written name"
   );
-  middleware.validationPostUserData(
+  util.validationPostUserData(
     signupUserData.email,
     messages,
     "Not written email"
   );
-  middleware.validationPostUserData(
+  util.validationPostUserData(
     signupUserData.password,
     messages,
     "Not written password"
