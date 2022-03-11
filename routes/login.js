@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const users = require("../controllers/users");
 const util = require("../util/index");
 
-//ログイン画面
 router.get("/", (req, res, next) => {
   res.render("login.ejs", { messages: [] });
 });

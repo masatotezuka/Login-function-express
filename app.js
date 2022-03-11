@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const session = require("express-session");
 const ejsLint = require("ejs-lint");
-const dotenv = require("dotenv");
-dotenv.config();
+const dotenv = require("dotenv").config();
+
+app.use;
 
 app.use(
   session({
@@ -13,16 +14,12 @@ app.use(
     maxage: 1000 * 60 * 60 * 24,
   })
 );
-// https://www.npmjs.com/package/express-session
-//https://qiita.com/hika7719/items/3282ab2ebcdaf080912e
 
 app.use("/public", express.static("public"));
 app.set("views", "./views");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
-// https://expressjs.com/ja/4x/api.html#express.urlencoded
 
-//ルーティング
 app.use("/", require("./routes/index"));
 app.use("/login", require("./routes/login"));
 app.use("/signup", require("./routes/signup"));

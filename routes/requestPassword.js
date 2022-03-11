@@ -11,7 +11,6 @@ router.get("/", (req, res, next) => {
 router.post("/", async (req, res, next) => {
   const email = req.body.email;
   const messages = [];
-  // オブジェクトのままでは渡せない. https://hdix.hatenablog.com/entry/2018/01/05/163935
 
   util.validationPostUserData(email, messages, "Not written Email");
   if (messages.length > 0) {
@@ -26,7 +25,7 @@ router.post("/", async (req, res, next) => {
   res.render("afterPostedMail.ejs");
 });
 
-//Ref:https://www.npmjs.com/package/gmail-send
+//https://www.npmjs.com/package/gmail-send
 const sendGmail = (postUserEmail, emailFromUserModel, token, res) => {
   try {
     if (emailFromUserModel === null) {
