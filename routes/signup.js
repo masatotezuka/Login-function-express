@@ -1,4 +1,5 @@
 const express = require("express");
+
 const router = express.Router();
 const users = require("../controllers/users");
 const util = require("../util/index");
@@ -24,7 +25,7 @@ router.post("/", async (req, res, next) => {
       messages,
       "Already exist user Email"
     );
-    return res.status(500).render("signup.ejs", { messages: messages });
+    return res.render("signup.ejs", { messages: messages });
   }
 
   const hashText = await util.createHash(signupUserData.password);
@@ -32,10 +33,10 @@ router.post("/", async (req, res, next) => {
   const newUserFromUsers = await users.findUser(signupUserData.email);
 
   req.session.userId = newUserFromUsers.id;
-  res.status(200).redirect("/list-top");
+  res.redirect("/list-top");
 });
 
-const validationSignupData = (signupUserData, messages) => {
+function validationSignupData(signupUserData, messages) {
   util.validationPostUserData(
     signupUserData.firstName,
     messages,
@@ -56,6 +57,6 @@ const validationSignupData = (signupUserData, messages) => {
     messages,
     "Not written password"
   );
-};
+}
 
 module.exports = router;

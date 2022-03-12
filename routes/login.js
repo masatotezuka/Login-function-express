@@ -14,16 +14,16 @@ router.post("/", async (req, res, next) => {
 
   mailAndPasswordValidation(loginUserData, messages);
   if (messages.length > 0) {
-    return res.status(400).render("login.ejs", { messages: messages });
+    return res.render("login.ejs", { messages: messages });
   }
 
   const userFromUserModel = await users.findUser(loginUserData.email);
   util.mailCheck(userFromUserModel, null, messages, "Not found Email");
   if (messages.length > 0)
-    return res.status(400).render("login.ejs", { messages: messages });
+    return res.render("login.ejs", { messages: messages });
 
   if (userFromUserModel === null) {
-    return res.status(500).render("login.ejs");
+    return res.render("login.ejs");
   } else {
     const comparedResult = await bcrypt.compare(
       loginUserData.password,
@@ -31,9 +31,12 @@ router.post("/", async (req, res, next) => {
     );
     if (comparedResult) {
       req.session.userId = userFromUserModel.id;
+      // req.sessionID = userFromUserModel.email;
+      console.log(req.session.userId);
       res.redirect("/list-top");
     } else {
-      res.status(500).render("login.ejs", { messages: messages });
+      //パスワードのエラーメッセージとメールアドレスのエラーメッセージは別にしない。
+      res.render("login.ejs", { messages: messages });
     }
   }
 });

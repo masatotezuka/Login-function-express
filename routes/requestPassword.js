@@ -26,6 +26,7 @@ router.post("/", async (req, res, next) => {
 });
 
 //https://www.npmjs.com/package/gmail-send
+//function
 const sendGmail = (postUserEmail, emailFromUserModel, token, res) => {
   try {
     if (emailFromUserModel === null) {
