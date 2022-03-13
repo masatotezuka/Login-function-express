@@ -9,54 +9,36 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const signupUserData = req.body;
-  const messages = [];
+  try {
+    const signupUserData = req.body;
 
-  validationSignupData(signupUserData, messages);
-  if (messages.length > 0) {
-    return res.render("signup.ejs", { messages: messages });
+    validationSignupData(signupUserData);
+
+    const userDataFromUsers = await users.findUser(signupUserData.email);
+    if (userDataFromUsers !== null) {
+      util.mailCheck(
+        userDataFromUsers.email,
+        signupUserData.email,
+        "Invalid value"
+      );
+    }
+
+    const hashText = await util.createHash(signupUserData.password);
+    await users.createUser(signupUserData, hashText);
+    const newUserFromUsers = await users.findUser(signupUserData.email);
+
+    req.session.userId = newUserFromUsers.id;
+    res.redirect("/list-top");
+  } catch (error) {
+    res.render("signup.ejs", { messages: error.message });
   }
-
-  const userDataFromUsers = await users.findUser(signupUserData.email);
-  if (userDataFromUsers !== null) {
-    util.mailCheck(
-      userDataFromUsers.email,
-      signupUserData.email,
-      messages,
-      "Already exist user Email"
-    );
-    return res.render("signup.ejs", { messages: messages });
-  }
-
-  const hashText = await util.createHash(signupUserData.password);
-  await users.createUser(signupUserData, hashText);
-  const newUserFromUsers = await users.findUser(signupUserData.email);
-
-  req.session.userId = newUserFromUsers.id;
-  res.redirect("/list-top");
 });
 
-function validationSignupData(signupUserData, messages) {
-  util.validationPostUserData(
-    signupUserData.firstName,
-    messages,
-    "Not written name"
-  );
-  util.validationPostUserData(
-    signupUserData.lastName,
-    messages,
-    "Not written name"
-  );
-  util.validationPostUserData(
-    signupUserData.email,
-    messages,
-    "Not written email"
-  );
-  util.validationPostUserData(
-    signupUserData.password,
-    messages,
-    "Not written password"
-  );
+function validationSignupData(signupUserData) {
+  util.validationPostUserData(signupUserData.firstName, "Not written name");
+  util.validationPostUserData(signupUserData.lastName, "Not written name");
+  util.validationPostUserData(signupUserData.email, "Not written email");
+  util.validationPostUserData(signupUserData.password, "Not written password");
 }
 
 module.exports = router;

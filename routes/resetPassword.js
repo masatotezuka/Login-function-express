@@ -15,16 +15,10 @@ router.post("/:token", async (req, res) => {
   try {
     const password = req.body.password;
     const currentToken = req.params.token;
-    const messages = [];
 
-    util.validationPostUserData(password, messages, "Not written password");
-    if (messages.length > 0) {
-      return res
-        .status(400)
-        .render("resetPassword.ejs", { messages: messages });
-    }
-
+    util.validationPostUserData(password, "Not written password");
     const hashText = await util.createHash(password);
+
     const updateUserData = await Users.findOne({
       where: { verificationToken: currentToken },
     });
@@ -40,9 +34,9 @@ router.post("/:token", async (req, res) => {
     );
 
     req.session.userId = updateUserData.id;
-    res.status(200).redirect("/list-top");
+    res.redirect("/list-top");
   } catch (error) {
-    res.status(400).send(error);
+    res.render("resetPassword.ejs", { messages: error.message });
   }
 });
 

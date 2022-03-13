@@ -7,15 +7,15 @@ const createUuid = () => {
   return `${uuid.v4()}-${currentDate}`;
 };
 
-const mailCheck = (fromdbUsers, checkData, messages, messageText) => {
-  if (fromdbUsers === checkData) {
-    messages.push(messageText);
+const mailCheck = (userFromUserModel, checkData, messageText) => {
+  if (userFromUserModel === checkData) {
+    throw new Error(messageText);
   }
 };
 
-const validationPostUserData = (postUserData, messages, messageText) => {
+const validationPostUserData = (postUserData, messageText) => {
   if (postUserData === "") {
-    messages.push(messageText);
+    throw new Error(messageText);
   }
 };
 
@@ -24,7 +24,7 @@ const createHash = async (postUserPassword) => {
     const hash = await bcrypt.hash(postUserPassword, 10);
     return hash;
   } catch (error) {
-    throw error;
+    return error;
   }
 };
 

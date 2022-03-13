@@ -19,25 +19,25 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));
 
-const csrfProtection = csrf({ cookie: false });
-app.use(csrfProtection);
+// const csrfProtection = csrf({ cookie: false });
+// app.use(csrfProtection);
 
 //3回リクエストが送信されている.
-app.use((req, res, next) => {
-  const method = req.method;
-  if (method === "GET") {
-    res.locals.csrfToken = req.csrfToken();
-    console.log(res.locals.csrfToken);
-    res.locals.csrfField = `<input type="hide", name="_token", value=${res.locals.csrfToken} />`;
-  } else if (method === "POST" || "PUT" || "DELETE" || "PATCH") {
-    console.log(req.body._csrf);
-    console.log(res.locals.csrfToken);
-    if (req.body._csrf !== res.locals.csrfToken) {
-      return res.status(419).send("page expired ");
-    }
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   const method = req.method;
+//   if (method === "GET") {
+//     res.locals.csrfToken = req.csrfToken();
+//     console.log(res.locals.csrfToken);
+//     res.locals.csrfField = `<input type="hide", name="_token", value=${res.locals.csrfToken} />`;
+//   } else if (method === "POST" || "PUT" || "DELETE" || "PATCH") {
+//     console.log(req.body._csrf);
+//     console.log(res.locals.csrfToken);
+//     if (req.body._csrf !== res.locals.csrfToken) {
+//       return res.status(419).send("page expired ");
+//     }
+//   }
+//   next();
+// });
 
 app.use("/", require("./routes/index"));
 app.use("/login", require("./routes/login"));
