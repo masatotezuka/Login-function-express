@@ -4,6 +4,9 @@ const session = require("express-session");
 const ejsLint = require("ejs-lint");
 const dotenv = require("dotenv").config();
 const csrf = require("csurf");
+const log4js = require("log4js");
+const favicon = require("serve-favicon");
+const path = require("path");
 
 app.use(
   session({
@@ -18,26 +21,23 @@ app.set("views", "./views");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static("public"));
+app.use(
+  favicon(
+    path.join(__dirname, "public", "image", "pockettherapist_favicon.png")
+  )
+);
+const csrfProtection = csrf({ cookie: false });
+app.use(csrfProtection);
 
-// const csrfProtection = csrf({ cookie: false });
-// app.use(csrfProtection);
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
-//3回リクエストが送信されている.
-// app.use((req, res, next) => {
-//   const method = req.method;
-//   if (method === "GET") {
-//     res.locals.csrfToken = req.csrfToken();
-//     console.log(res.locals.csrfToken);
-//     res.locals.csrfField = `<input type="hide", name="_token", value=${res.locals.csrfToken} />`;
-//   } else if (method === "POST" || "PUT" || "DELETE" || "PATCH") {
-//     console.log(req.body._csrf);
-//     console.log(res.locals.csrfToken);
-//     if (req.body._csrf !== res.locals.csrfToken) {
-//       return res.status(419).send("page expired ");
-//     }
-//   }
-//   next();
-// });
+const logger = log4js.getLogger();
+
+logger.level = "info";
+logger.info("hello");
 
 app.use("/", require("./routes/index"));
 app.use("/login", require("./routes/login"));
@@ -48,7 +48,7 @@ app.use("/requestpassword", require("./routes/requestPassword"));
 app.use("/resetpassword", require("./routes/resetPassword"));
 
 app.use((req, res, next) => {
-  return res.status(404).render("error404.ejs");
+  res.status(404).render("error404.ejs");
 });
 
 app.listen(8000);
