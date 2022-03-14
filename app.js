@@ -34,8 +34,8 @@ app.use((req, res, next) => {
   next();
 });
 
+//log4jsをトライ
 const logger = log4js.getLogger();
-
 logger.level = "info";
 logger.info("hello");
 
