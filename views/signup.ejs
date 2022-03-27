@@ -5,6 +5,7 @@
     <p id="register-text">新規登録</p>
     <div class="row">
       <form action="/signup" method="post" class="col s12">
+        <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
         <div class="row">
           <div class="input-field col s6">
             <input
@@ -30,7 +31,7 @@
             />
             <label for="last_name">名</label>
           </div>
-          <% if(messages[0] ==='Not written name'){ %>
+          <% if(messages ==='Not written name'){ %>
           <div class="error-box">
             <p class="error-messeage"><%='氏名が未記入です。' %></p>
           </div>
@@ -48,14 +49,14 @@
             />
             <label for="email">Email</label>
             <div class="error-box">
-              <% if(messages[0] ==='Not written Email'){ %>
+              <% if(messages ==='Not written Email'){ %>
               <p class="error-messeage"><%='メールアドレスが未記入です。' %></p>
               <% } %>
             </div>
-            <% if(messages[0] === 'Already exist user Email'){ %>
+            <% if(messages === 'Invalid value'){ %>
             <div class="error-box">
               <p class="error-messeage">
-                <%= '既に登録済みのメールアドレスです。'%>
+                <%= 'メールアドレスの入力に誤りがあります。'%>
               </p>
             </div>
             <% }%>
@@ -73,7 +74,7 @@
               pattern="^[a-zA-Z\d]{8,100}"
             />
             <label for="password">Password（半角英数字8文字以上）</label>
-            <% if(messages[0]==='Not written password'){ %>
+            <% if(messages ==='Not written password'){ %>
             <div class="error-box">
               <p class="error-messeage"><%='パスワードが未記入です。' %></p>
             </div>

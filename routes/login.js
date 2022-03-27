@@ -3,53 +3,42 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const users = require("../controllers/users");
 const util = require("../util/index");
-
-router.get("/", (req, res, next) => {
+const app = express();
+router.get("/", (req, res) => {
+  console.log(req.originalUrl);
   res.render("login.ejs", { messages: [] });
 });
 
-router.post("/", async (req, res, next) => {
-  const loginUserData = req.body;
-  const messages = [];
+router.post("/", async (req, res) => {
+  try {
+    const loginUserData = req.body;
+    console.log(loginUserData);
 
-  mailAndPasswordValidation(loginUserData, messages);
-  if (messages.length > 0) {
-    return res.status(400).render("login.ejs", { messages: messages });
-  }
+    mailAndPasswordValidation(loginUserData);
+    const userFromUserModel = await users.findUser(loginUserData.email);
+    util.mailCheck(userFromUserModel, null, "Not Found User");
 
-  const userFromUserModel = await users.findUser(loginUserData.email);
-  util.mailCheck(userFromUserModel, null, messages, "Not found Email");
-  if (messages.length > 0)
-    return res.status(400).render("login.ejs", { messages: messages });
-
-  if (userFromUserModel === null) {
-    return res.status(500).render("login.ejs");
-  } else {
-    const comparedResult = await bcrypt.compare(
-      loginUserData.password,
-      userFromUserModel.password
-    );
-    if (comparedResult) {
-      req.session.userId = userFromUserModel.id;
-      res.redirect("/list-top");
-    } else {
-      res.status(500).render("login.ejs", { messages: messages });
+    if (userFromUserModel !== null) {
+      const comparedResult = await bcrypt.compare(
+        loginUserData.password,
+        userFromUserModel.password
+      );
+      if (comparedResult) {
+        req.session.userId = userFromUserModel.id;
+        // app.session.userId = userFromUserModel.id;
+        res.redirect("/list-top");
+      } else {
+        throw new Error("Not Found User");
+      }
     }
+  } catch (error) {
+    return res.render("login.ejs", { messages: error.message });
   }
 });
 
-//未入力チェック
-const mailAndPasswordValidation = (loginUserData, messages) => {
-  util.validationPostUserData(
-    loginUserData.email,
-    messages,
-    "Not written Email"
-  );
-  util.validationPostUserData(
-    loginUserData.email,
-    messages,
-    "Not written password"
-  );
+const mailAndPasswordValidation = (loginUserData) => {
+  util.validationPostUserData(loginUserData.email, "Not written Email");
+  util.validationPostUserData(loginUserData.email, "Not written password");
 };
 
 module.exports = router;

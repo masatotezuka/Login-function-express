@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-router.post("/", (req, res, next) => {
-  req.session.destroy((error) => {
+router.post("/", (req, res) => {
+  req.session.destroy(() => {
     try {
       res.redirect("/");
     } catch (error) {

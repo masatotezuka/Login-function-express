@@ -1,12 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  if (req.session.userId === undefined) {
-    res.status(400).render("login.ejs", { message: [] });
+// router.get("/", (req, res) => {
+//   if (req.session.userId === undefined) {
+//     res.redirect("/login");
+//   } else {
+//     res.render("listPage.ejs");
+//   }
+// });
+
+router.get("/", (req, res) => {
+  if (req.session.userId == undefined) {
+    res.redirect("/login");
   } else {
-    res.status(200).render("listPage.ejs");
+    res.render("listPage.ejs");
   }
 });
-
 module.exports = router;

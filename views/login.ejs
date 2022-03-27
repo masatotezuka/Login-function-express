@@ -5,6 +5,7 @@
     <p id="login-text">ログイン</p>
     <div class="row">
       <form action="/login" method="post" class="col s12">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
         <div class="row">
           <div class="input-field col s12">
             <input
@@ -17,7 +18,7 @@
               minlength="1"
             />
             <label for="email">Email</label>
-            <% if(messages[0] ==='Not written Email'){ %>
+            <% if(messages ==='Not written Email'){ %>
             <div class="error-box">
               <p class="error-messeage"><%='メールアドレスが未入力です。' %></p>
             </div>
@@ -36,7 +37,7 @@
             />
             <label for="password">Password</label>
 
-            <% if(messages[0] ==='Not written password'){ %>
+            <% if(messages ==='Not written password'){ %>
             <div class="error-box">
               <p class="error-messeage"><%='パスワードが未入力です' %></p>
             </div>
@@ -52,10 +53,10 @@
           />
           <label for="submit-btn"></label>
         </div>
-        <% if(messages[0] ==='Not found Email'){%>
-        <p id="login-unmatch"><%= 'メールアドレスが正しくありません。' %></p>
-        <% } %> <% if(messages[0] ==='Not found Password'){%>
-        <p id="login-unmatch"><%= 'パスワードが正しくありません。' %></p>
+        <% if(messages ==='Not Found User'){%>
+        <p id="login-unmatch">
+          <%= 'メールアドレスまたはパスワードが正しくありません。' %>
+        </p>
         <% } %>
       </form>
     </div>

@@ -12,24 +12,32 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.2",
+    "connect-session-sequelize": "^7.1.2",
+    "csurf": "^1.11.0",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "ejs-lint": "^1.2.1",
     "express": "^4.17.1",
     "express-domain-middleware": "^0.1.0",
+    "express-mysql-session": "^2.1.7",
     "express-session": "^1.17.2",
+    "favicon": "0.0.2",
     "gmail-send": "^1.8.14",
+    "log4js": "^6.4.2",
     "materialize-css": "^1.0.0-rc.2",
     "momnet": "^2.29.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "path": "^0.12.7",
     "sendmail": "^1.6.1",
     "sequelize": "^6.12.0-beta.3",
     "sequelize-cli": "^6.4.1",
+    "serve-favicon": "^2.5.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^8.4.1",
+    "eslint": "^8.11.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
   }
