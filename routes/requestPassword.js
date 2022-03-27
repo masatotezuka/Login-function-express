@@ -4,11 +4,11 @@ const users = require("../controllers/users");
 const util = require("../util/index");
 const config = require("../config/mail");
 
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
   res.render("requestPassword.ejs", { messages: [] });
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", async (req, res) => {
   try {
     const email = req.body.email;
 

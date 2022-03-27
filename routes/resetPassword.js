@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const users = require("../controllers/users");
 const util = require("../util/index");
 const { Users } = require("../models");
 
@@ -25,7 +24,7 @@ router.post("/:token", async (req, res) => {
 
     await Users.update(
       {
-        password: password,
+        password: hashText,
         verificationToken: null,
       },
       {

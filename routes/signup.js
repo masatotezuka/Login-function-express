@@ -4,11 +4,11 @@ const router = express.Router();
 const users = require("../controllers/users");
 const util = require("../util/index");
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   res.render("signup.ejs", { messages: [] });
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", async (req, res) => {
   try {
     const signupUserData = req.body;
 
@@ -23,10 +23,11 @@ router.post("/", async (req, res, next) => {
       );
     }
 
+    console.log("DB処理前");
     const hashText = await util.createHash(signupUserData.password);
     await users.createUser(signupUserData, hashText);
     const newUserFromUsers = await users.findUser(signupUserData.email);
-
+    console.log("DB処理");
     req.session.userId = newUserFromUsers.id;
     res.redirect("/list-top");
   } catch (error) {
